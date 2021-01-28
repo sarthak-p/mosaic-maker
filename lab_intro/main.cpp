@@ -10,6 +10,7 @@ int main() {
   cs225::PNG png, png2, result;
 
   png.readFromFile("alma.png");
+
   result = grayscale(png);
   result.writeToFile("out-grayscale.png");
   
@@ -20,6 +21,7 @@ int main() {
   result.writeToFile("out-illinify.png");
 
   png2.readFromFile("overlay.png");
+  
   result = watermark(png, png2);
   result.writeToFile("out-watermark.png");
   

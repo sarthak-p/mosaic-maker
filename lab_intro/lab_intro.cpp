@@ -62,8 +62,27 @@ PNG grayscale(PNG image) {
  */
 PNG createSpotlight(PNG image, int centerX, int centerY) {
 
-  return image;
-  
+  for (unsigned x = 0; x < image.width(); x++) {
+    for (unsigned y = 0; y < image.height(); y++) {
+      
+      HSLAPixel & pixel = image.getPixel(x, y);
+
+      double diffX = (x - centerX);
+      double diffY = (y - centerY);
+
+      double distance = sqrt(diffX*diffX + diffY*diffY);
+
+      if (distance >= 160) {
+        pixel.l = 0.20 * pixel.l;
+      }
+        else if (distance == 0) { 
+          pixel.l = pixel.l; 
+      } else {
+        pixel.l = pixel.l - (pixel.l * (distance * 0.005));
+      }
+    }
+  }
+  return image; 
 }
  
 
@@ -79,12 +98,24 @@ PNG createSpotlight(PNG image, int centerX, int centerY) {
 **/
 PNG illinify(PNG image) {
 
+  for (unsigned x = 0; x < image.width(); x++) {
+    for (unsigned y = 0; y < image.height(); y++) {
+      
+      HSLAPixel & pixel = image.getPixel(x, y);
+
+      if (pixel.h >= 150 && pixel.h < 330) {
+        pixel.h = 216; 
+      } else {
+        pixel.h = 11; 
+      }
+    }
+  }
   return image;
 }
  
 
 /**
-* Returns an immge that has been watermarked by another image.
+* Returns an image that has been watermarked by another image.
 *
 * The luminance of every pixel of the second image is checked, if that
 * pixel's luminance is 1 (100%), then the pixel at the same location on
@@ -96,6 +127,17 @@ PNG illinify(PNG image) {
 * @return The watermarked image.
 */
 PNG watermark(PNG firstImage, PNG secondImage) {
+  for (unsigned x = 0; x < firstImage.width(); x++) {
+    for (unsigned y = 0; y < firstImage.height(); y++) {
+      
+      HSLAPixel & pixelFirst = firstImage.getPixel(x, y);
+      HSLAPixel & pixelSecond = secondImage.getPixel(x, y);
+
+      if (pixelSecond.l == 1.0) {
+        pixelFirst.l += 0.2;
+      } 
+    }
+  }
 
   return firstImage;
 }
