@@ -77,7 +77,7 @@ namespace cs225 {
     bool writeToFile(string const & fileName);
 
     /**
-      * Pixel access operator. Gets a reference to the pixel at the given
+      * Pixel access operAtor. Gets a reference to the pixel at the given
       * coordinates in the image. (0,0) is the upper left corner.
       * This reference allows the image to be changed.
       * @param x X-coordinate for the pixel pointer to be grabbed from.
