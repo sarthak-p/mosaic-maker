@@ -1,5 +1,6 @@
 #include "cs225/PNG.h"
 #include "cs225/HSLAPixel.h"
+using namespace cs225; 
 
 #include <string>
 
@@ -7,8 +8,8 @@
 void rotate(std::string inputFile, std::string outputFile) {
   // TODO: Part 
 
-  PNG & ourPNG = new PNG();
-  ourPNG = readFromFile(inputFile);
+  PNG * ourPNG = new PNG();
+  ourPNG->readFromFile(inputFile);
 
   PNG & newPNG = new PNG();
   newPNG = readFromFile(outputFile);
