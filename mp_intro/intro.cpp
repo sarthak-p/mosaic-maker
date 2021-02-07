@@ -8,9 +8,11 @@ using namespace cs225;
 void rotate(std::string inputFile, std::string outputFile) {
   // TODO: Part 
 
-  PNG * ourPNG = nullptr;
+  //created a new PNG pointer that loads inputFile
+  PNG * ourPNG = new PNG(); 
   ourPNG->readFromFile(inputFile); 
 
+  //created regular PNG variable to write output image 
   PNG newPNG(ourPNG->width(), ourPNG->height()); 
 
 for (unsigned int x = 0; x < ourPNG->width(); x++) { 
@@ -28,6 +30,7 @@ cs225::PNG myArt(unsigned int width, unsigned int height) {
   cs225::PNG png(width, height);
   // TODO: Part 3
 
+  
 
   return png;
 }
