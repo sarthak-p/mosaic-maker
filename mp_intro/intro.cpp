@@ -27,6 +27,8 @@ for (unsigned int x = 0; x < ourPNG->width(); x++) {
     }
   }
   newPNG.writeToFile(outputFile);
+
+  delete ourPNG; 
 }
 
 cs225::PNG myArt(unsigned int width, unsigned int height) {
