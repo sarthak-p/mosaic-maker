@@ -50,12 +50,14 @@ cs225::PNG myArt(unsigned int width, unsigned int height) {
       current.l = 0.8;
 
       unsigned int k = 11000; 
+      unsigned int r = 8500; 
+      unsigned int f = 500; 
 
 
       if (y <= topY) {
-        current.h = 31; 
-        current.s = 0.85;
-        current.l = 0.40; 
+        current.h = 346; 
+        current.s = 1.0;
+        current.l = 0.45; 
       } else if (topY < y && y <= middleY) {
         current.h = 360; 
         current.s = 1.0;
@@ -70,7 +72,21 @@ cs225::PNG myArt(unsigned int width, unsigned int height) {
         current.h = 241; 
         current.s = 1.0; 
         current.l = 0.4; 
-      }
+      } 
+      
+      
+      if (((x - centerX) * (x - centerX)) + (y - centerY) * (y - centerY) <= (r^2)) {
+          current.h = 360;
+          current.s = 1.0;
+          current.l = 1.0;
+        }
+
+        if (((x - centerX) * (x - centerX)) + (y - centerY) * (y - centerY) <= (f ^ 2))
+        {
+          current.h = 241;
+          current.s = 1.0;
+          current.l = 0.4;
+        }
     }
   }
   return png;
