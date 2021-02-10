@@ -49,9 +49,9 @@ void Allocator::loadRooms(const std::string& file)
     totalCapacity = 0;
     int i = 0;
     while (fileio::areMoreRooms()) {
-        i++; 
         rooms[i] = fileio::nextRoom();
         totalCapacity += rooms[i].capacity;
+        i++;
     }
 }
 
@@ -117,4 +117,9 @@ Room* Allocator::largestOpening()
         }
     }
     return &rooms[index];
+}
+
+Allocator::~Allocator() {
+    delete[] rooms; 
+    delete[] alpha; 
 }
