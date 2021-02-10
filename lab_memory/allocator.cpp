@@ -49,6 +49,7 @@ void Allocator::loadRooms(const std::string& file)
 {
     // Read in rooms
     fileio::loadRooms(file);
+    roomCount = fileio::getNumRooms(); 
     rooms = new Room[roomCount];
 
     totalCapacity = 0;
@@ -105,6 +106,7 @@ int Allocator::solve()
 int Allocator::minSpaceRemaining()
 {
     int border = 1000000;
+    roomCount = fileio::getNumRooms(); 
     for (int i = 0; i < roomCount; i++)
         if (rooms[i].spaceRemaining() < border)
             border = rooms[i].spaceRemaining();
@@ -115,6 +117,7 @@ Room* Allocator::largestOpening()
 {
     int index = 0;
     int max_remaining = 0;
+    roomCount = fileio::getNumRooms();
     for (int i = 0; i < roomCount; i++) {
         if (rooms[i].spaceRemaining() > max_remaining) {
             index = i;
