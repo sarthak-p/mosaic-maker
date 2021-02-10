@@ -85,6 +85,7 @@ void Allocator::allocate()
 void Allocator::printRooms(std::ostream & stream /* = std::cout */)
 {
     // Output the allocation
+    roomCount = fileio::getNumRooms();
     stream << "Room Allocation (" << studentCount << "/" << totalCapacity << ")"
          << std::endl;
     for (int i = 0; i < roomCount; i++)
