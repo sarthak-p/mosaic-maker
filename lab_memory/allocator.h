@@ -46,6 +46,12 @@ class Allocator
      */
     void printRooms(std::ostream & stream = std::cout);
 
+    /**
+     * Deletes the heap variables to free dynamic memory 
+     * 
+     */
+    ~Allocator();
+
   private:
     /**
      * Creates the array of letters.
@@ -82,6 +88,7 @@ class Allocator
      */
     int minSpaceRemaining();
 
+    
     /** Array of all letters (size 26) */
     Letter* alpha;
 

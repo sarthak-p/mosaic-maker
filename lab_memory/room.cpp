@@ -75,3 +75,5 @@ void Room::copy(const Room& other)
     letters = other.letters;
 
 }
+
+R
