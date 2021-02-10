@@ -18,6 +18,11 @@ Allocator::Allocator(const std::string& studentFile, const std::string& roomFile
     loadRooms(roomFile);
 }
 
+Allocator::~Allocator(){
+    delete[] rooms;
+    delete[] alpha;
+}
+
 void Allocator::createLetterGroups()
 {
     // Make letters (A - Z lettergroups)
@@ -119,7 +124,4 @@ Room* Allocator::largestOpening()
     return &rooms[index];
 }
 
-Allocator::~Allocator() {
-    delete[] rooms; 
-    delete[] alpha; 
-}
+
