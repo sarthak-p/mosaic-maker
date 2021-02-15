@@ -204,8 +204,31 @@ void Image::illinify() {
 
 void Image::scale(double factor) {
 
+    unsigned int W = width() * factor; 
+    unsigned int H = height() * factor; 
+
+    PNG * scale = new PNG(W, H); 
+
+    resize(W, H);
+
+    for (unsigned x = 0; x < W; x++)
+    {
+        for (unsigned y = 0; y < H; y++)
+        {
+            HSLAPixel & current = getPixel(x, y);
+            HSLAPixel & scales = scale->getPixel(x / factor, y / factor);
+            current = scales; 
+        }
+    }
 }
 
 void Image::scale(unsigned w, unsigned h) {
+    double scaleW = float(w) / width();
+    double scaleH = float(h) / height(); 
 
+    if (scaleW < scaleH) {
+        scale(scaleW);
+    } else {
+        scale(scaleH);
+    }
 } 
