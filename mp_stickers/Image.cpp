@@ -224,7 +224,12 @@ void Image::scale(double factor) {
 }
 
 void Image::scale(unsigned w, unsigned h) {
-    double scaleH = float(h) / width();
+    double scaleH = float(h) / height();
+    double scaleW = float(w) / width(); 
 //easier and faster to use existing scale() to perform preservation 
-    scale(scaleH);
+    if (scaleH < scaleW) {
+        scale(scaleH);
+    } else {
+        scale(scaleW);
+    }
 } 
