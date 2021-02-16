@@ -178,11 +178,11 @@ void Image::rotateColor(double degrees) {
             current.h += degrees; 
             while (current.h > 360.0) 
             {
-                current.h = 360.0; 
+                current.h -= 360; 
             }
-            while (current.h < 0.0) 
+            if (current.h < 0.0) 
             {
-                current.h = 0.0;
+                current.h += 360.0;
             }
         }
     }
@@ -224,13 +224,7 @@ void Image::scale(double factor) {
 }
 
 void Image::scale(unsigned w, unsigned h) {
-    double scaleW = float(w) / width();
-    double scaleH = float(h) / height(); 
-
+    double scaleH = float(h) / width();
 //easier and faster to use existing scale() to perform preservation 
-    if (scaleW < scaleH) {
-        scale(scaleW);
-    } else {
-        scale(scaleH);
-    }
+    scale(scaleH);
 } 
