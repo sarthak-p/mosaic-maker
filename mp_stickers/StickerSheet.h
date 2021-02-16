@@ -6,17 +6,19 @@
 #pragma once
 #include "Image.h"
 
+using namespace cs225; 
+
 class StickerSheet {
     public:
     StickerSheet(const Image & picture, unsigned max);
+    int addSticker(Image & sticker, unsigned x, unsigned y);
+    Image render() const; 
     ~StickerSheet(); 
     StickerSheet(const StickerSheet & other);
     StickerSheet & operator=(const StickerSheet & other);
     void changeMaxStickers(unsigned max);
-    int addSticker(Image & sticker, unsigned x, unsigned y);
     bool translate(unsigned index, unsigned x, unsigned y);
     void removeSticker(unsigned index);
     Image * getSticker(unsigned index);
-    Image render() const; 
 };
  

@@ -204,10 +204,10 @@ void Image::illinify() {
 
 void Image::scale(double factor) {
 
-    unsigned int W = width() * factor; 
-    unsigned int H = height() * factor; 
+    double int W = width() * factor; 
+    double int H = height() * factor; 
 
-    PNG * scale = new PNG(W, H); 
+    Image * scale = new Image(); 
 
     resize(W, H);
 
