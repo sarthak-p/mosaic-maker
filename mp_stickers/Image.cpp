@@ -176,11 +176,11 @@ void Image::rotateColor(double degrees) {
         for (unsigned y = 0; y < height(); y++) {
             HSLAPixel & current = getPixel(x, y);
             current.h += degrees; 
-            if (current.h > 360.0) 
+            while (current.h > 360.0) 
             {
                 current.h = 360.0; 
             }
-            if (current.h < 0.0) 
+            while (current.h < 0.0) 
             {
                 current.h = 0.0;
             }
@@ -204,10 +204,11 @@ void Image::illinify() {
 
 void Image::scale(double factor) {
 
-    double int W = width() * factor; 
-    double int H = height() * factor; 
+    unsigned int W = width() * factor; 
+    unsigned int H = height() * factor; 
 
     Image * scale = new Image(); 
+    *scale = *this;
 
     resize(W, H);
 
@@ -226,6 +227,7 @@ void Image::scale(unsigned w, unsigned h) {
     double scaleW = float(w) / width();
     double scaleH = float(h) / height(); 
 
+//easier and faster to use existing scale() to perform preservation 
     if (scaleW < scaleH) {
         scale(scaleW);
     } else {
