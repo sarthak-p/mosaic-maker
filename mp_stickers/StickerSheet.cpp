@@ -42,6 +42,13 @@ StickerSheet::StickerSheet(const StickerSheet & other) {
 }
 
 const StickerSheet & StickerSheet::operator=(const StickerSheet & other) {
+    delete[] array; 
+    array = nullptr; 
+    delete[] x_;
+    x_ = nullptr;  
+    delete[] y_; 
+    y_ = nullptr; 
+
     if (this != &other) { 
         _copy(other); 
     }
@@ -56,7 +63,7 @@ void StickerSheet::_copy(const StickerSheet & other) {
     x_ = new unsigned[max_];
     y_ = new unsigned[max_];
     for (unsigned i = 0; i < max_; i++) {
-        if (array[i] != nullptr) {
+        if (other.array[i] != nullptr) {
             array[i] = other.array[i];  
         } else {
             array[i] = nullptr; 
@@ -73,16 +80,17 @@ void StickerSheet::_copy(const StickerSheet & other) {
 
 //member function documentation 
 int StickerSheet::addSticker(Image & sticker, unsigned x, unsigned y) {
+    Image * point = &sticker; 
     for (unsigned i = 0; i < max_; i++) {
         //can only add to spaces that are nullptr
         if (array[i] == nullptr) {
-        array[i] = new Image(sticker); 
         x_[i] = x; 
         y_[i] = y; 
+        array[i] = point;  
         return i;  
         }
     }
-
+    delete point; 
     return -1;
 }
 
@@ -92,14 +100,11 @@ void StickerSheet::changeMaxStickers(unsigned max) {
     if (max == max_) {
         return;
     }
-
-    cout << "reacher line 96" << endl; 
-
     
     if (max > max_) {
-    Image ** new_array = new Image * [max];
-    unsigned * new_x = new unsigned[max];
-    unsigned * new_y = new unsigned[max];
+        Image ** new_array = new Image * [max];
+        unsigned * new_x = new unsigned[max];
+        unsigned * new_y = new unsigned[max];
         for (unsigned i = 0; i < max; i++) {
             if (array[i] != nullptr) {
                 new_array[i] = array[i];
@@ -149,6 +154,7 @@ void StickerSheet::changeMaxStickers(unsigned max) {
     }
 }
 
+
 Image * StickerSheet::getSticker(unsigned index) {
     //if index is less than max, then we return the element at the index 
     if (index < max_) {
@@ -161,52 +167,56 @@ Image * StickerSheet::getSticker(unsigned index) {
 
 void StickerSheet::removeSticker (unsigned index) {
     for (unsigned i = 0; i < max_; i++) {
-        if ((index == max_) && (array[index] == nullptr) ) {
+        if ((index < max_) && (array[index] != nullptr)) {
             delete array[index];
-            //although we delete, the space still exists
             array[index] = nullptr;
         }
     }
 }
 
-Image StickerSheet::render() const {
-    Image * base_picture = new Image(); 
 
+Image StickerSheet::render() const {
+    
+    Image base = picture_;  
     unsigned height_ = picture_.height(); 
     unsigned width_ = picture_.width(); 
-    for (unsigned int i = 0; i < max_; i++) {
+    unsigned highest; 
+    unsigned widest; 
+
+    //checking if each sticker is out of bounds 
+    for (unsigned i = 0; i < max_; i++) {
+        
         if (array[i] != nullptr) {
-            unsigned high = (x_[i] + array[i]->width());
-            unsigned wide = (y_[i] + array[i]->height());
-            
-            if (height_ < high) {
-                height_ = high; 
-            }
-            if (width_ < wide) {
-                width_ = wide; 
-            }
+            highest = (x_[i] + array[i]->width());
+            widest = (y_[i] + array[i]->height());
+        }
+        if (height_ < highest) {
+            height_ = highest; 
+        }
+        if (width_ < widest) {
+            width_ = widest; 
         }
     }
 
-    base_picture->resize(picture_.width(), picture_.height());
+    base.resize(height_, width_);
 
     for (unsigned i = 0; i < max_; i++) {
         if (array[i] != nullptr) {
-            for(unsigned w = 0; w < picture_.width(); w++) {
-                for(unsigned h = 0; h < picture_.height(); h++) {
-                    HSLAPixel & base_pixel = base_picture->getPixel(w, h);
-                    HSLAPixel & picture_pixel = array[i]->getPixel(w - x_[i], h = y_[i]);
+            for(unsigned w = x_[i]; w < (array[i]->width() + x_[i]); w++) {
+                for(unsigned h = y_[i]; h < (array[i]->height() + y_[i]); h++) {
+                    HSLAPixel & pixel = base.getPixel(w, h);
+                    HSLAPixel & picture_pixel = array[i]->getPixel(w - x_[i], h - y_[i]);
                     if (picture_pixel.a != 0) {
-                        base_pixel = picture_pixel; 
+                        pixel = picture_pixel; 
                     }
                 }
             }
         }
     }
-    //have to return Image instead of Image pointer 
-    Image image = *base_picture;
-    return image; 
+    return base; 
 }
+
+
 
 bool StickerSheet::translate(unsigned index, unsigned x, unsigned y) {
 
@@ -214,6 +224,7 @@ bool StickerSheet::translate(unsigned index, unsigned x, unsigned y) {
         if (i == index && array[i] != nullptr) {
             x_[i] = x; 
             y_[i] = y; 
+            return true; 
         }
     }
     return false; 
