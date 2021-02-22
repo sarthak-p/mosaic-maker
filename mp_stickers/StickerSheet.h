@@ -15,10 +15,18 @@ class StickerSheet {
     Image render() const; 
     ~StickerSheet(); 
     StickerSheet(const StickerSheet & other);
-    StickerSheet & operator=(const StickerSheet & other);
+    const StickerSheet & operator=(const StickerSheet & other);
     void changeMaxStickers(unsigned max);
     bool translate(unsigned index, unsigned x, unsigned y);
     void removeSticker(unsigned index);
     Image * getSticker(unsigned index);
+
+    private:
+    Image picture_; 
+    Image ** array; 
+    unsigned max_; 
+    unsigned * x_; 
+    unsigned * y_; 
+    void _copy(const StickerSheet & other); 
 };
  
