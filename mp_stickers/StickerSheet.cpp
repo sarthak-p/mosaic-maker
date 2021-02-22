@@ -23,6 +23,13 @@ StickerSheet::StickerSheet(const Image & picture, unsigned max) {
 
 //destructor 
 StickerSheet::~StickerSheet() {
+    //freeing each element in the array 
+    for (unsigned i = 0; i < max_; i++) {
+        array[i] = nullptr; 
+        delete array[i]; 
+    }
+
+    //deleting the arrays 
     delete[] array; 
     array = nullptr; 
     delete[] x_;
@@ -37,15 +44,15 @@ StickerSheet::StickerSheet(const StickerSheet & other) {
 }
 
 const StickerSheet & StickerSheet::operator=(const StickerSheet & other) {
+    delete[] array; 
+    array = nullptr; 
+    delete[] x_;
+    x_ = nullptr;  
+    delete[] y_; 
+    y_ = nullptr; 
+    _copy(other); 
 
-        delete[] array; 
-        array = nullptr; 
-        delete[] x_;
-        x_ = nullptr;  
-        delete[] y_; 
-        y_ = nullptr; 
-        _copy(other); 
-        return *this;
+    return *this; 
 }
 
 
@@ -57,16 +64,14 @@ void StickerSheet::_copy(const StickerSheet & other) {
     y_ = new unsigned[max_];
     for (unsigned i = 0; i < max_; i++) {
         if (other.array[i] != nullptr) {
-            array[i] = other.array[i];  
+            array[i] = other.array[i];
         } else {
             array[i] = nullptr; 
         }
     }
     for (unsigned i = 0; i < max_; i++) {
         x_[i] = other.x_[i];
-    }
-    for (unsigned i = 0; i < max_; i++) {
-        y_[i] = other.y_[i];
+        y_[i] = other.y_[i]; 
     }
 }
 
@@ -77,76 +82,55 @@ int StickerSheet::addSticker(Image & sticker, unsigned x, unsigned y) {
     for (unsigned i = 0; i < max_; i++) {
         //can only add to spaces that are nullptr
         if (array[i] == nullptr) {
-        x_[i] = x; 
-        y_[i] = y; 
-        array[i] = point;  
-        return i;  
+            x_[i] = x; 
+            y_[i] = y; 
+            array[i] = point;  
+            return i;  
         }
     }
-    delete point; 
     return -1;
 }
 
 void StickerSheet::changeMaxStickers(unsigned max) {
 
+    Image ** new_array = new Image * [max];
+    unsigned * new_x = new unsigned[max];
+    unsigned * new_y = new unsigned[max];
+
     //if given max is equal to our max then do nothing
     if (max == max_) {
         return;
     }
-    
-    if (max > max_) {
-        Image ** new_array = new Image * [max];
-        unsigned * new_x = new unsigned[max];
-        unsigned * new_y = new unsigned[max];
-        for (unsigned i = 0; i < max; i++) {
-            if (array[i] != nullptr) {
-                new_array[i] = array[i];
-                new_x[i] = x_[i];
-                new_y[i] = y_[i];
-            } else {
-                new_array[i] = nullptr; 
-            }
-        }
-        array = new_array;
-        x_ = new_x; 
-        y_ = new_y; 
-        max_ = max; 
 
-        delete[] new_array;
-        new_array = nullptr;  
-        delete[] new_x;
-        new_x = nullptr; 
-        delete[] new_y;
-        new_y = nullptr; 
+    //adding all elements to the array
+    for (unsigned i = 0; i < max; i++) {
+        if (array[i] != nullptr) {
+            new_array[i] = array[i];
+            new_x[i] = x_[i];
+            new_y[i] = y_[i];
+        } else {
+            new_array[i] = nullptr; 
+        }
     }
 
+    //if given array is smaller than
     if (max < max_) {
-        Image ** temp_array = new Image * [max];
-        unsigned * temp_x = new unsigned[max];
-        unsigned * temp_y = new unsigned[max];
-        for (unsigned i = 0; i < max; i++) {
-            if (array[i] != nullptr) {
-                temp_array[i] = array[i];
-                temp_x[i] = x_[i];
-                temp_y[i] = y_[i];
-            } else {
-                temp_array[i] = nullptr; 
-            }
+        for (unsigned i = max; i < max_; i++) {
+            delete new_array[i]; 
         }
-        array = temp_array;
-        x_ = temp_x;
-        y_ = temp_y;
-        max_ = max;   
-
-        delete[] temp_array; 
-        temp_array = nullptr; 
-        delete[] temp_x;
-        temp_x = nullptr; 
-        delete[] temp_y; 
-        temp_y = nullptr; 
     }
-}
+    array = new_array;
+    x_ = new_x; 
+    y_ = new_y; 
+    max_ = max; 
 
+    delete[] new_array;
+    new_array = nullptr;  
+    delete[] new_x;
+    new_x = nullptr; 
+    delete[] new_y;
+    new_y = nullptr;
+}
 
 Image * StickerSheet::getSticker(unsigned index) {
     //if index is less than max, then we return the element at the index 
@@ -161,8 +145,8 @@ Image * StickerSheet::getSticker(unsigned index) {
 void StickerSheet::removeSticker (unsigned index) {
     for (unsigned i = 0; i < max_; i++) {
         if ((index < max_) && (array[index] != nullptr)) {
-            array[index] = nullptr;
             delete array[index];
+            array[index] = nullptr;
         }
     }
 }

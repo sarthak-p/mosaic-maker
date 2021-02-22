@@ -20,6 +20,8 @@ class StickerSheet {
     bool translate(unsigned index, unsigned x, unsigned y);
     void removeSticker(unsigned index);
     Image * getSticker(unsigned index);
+    void _copy(const StickerSheet & other); 
+
 
     private:
     Image picture_; 
@@ -27,6 +29,5 @@ class StickerSheet {
     unsigned max_; 
     unsigned * x_; 
     unsigned * y_; 
-    void _copy(const StickerSheet & other); 
 };
  
