@@ -24,12 +24,9 @@ class StickerSheet {
     private:
     Image picture_; 
     Image ** array; 
-    Image ** new_array; 
     unsigned max_; 
     unsigned * x_; 
-    unsigned * y_;
-    unsigned * new_x; 
-    unsigned * new_y;  
+    unsigned * y_; 
     void _copy(const StickerSheet & other); 
 };
  

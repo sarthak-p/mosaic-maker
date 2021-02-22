@@ -5,21 +5,23 @@
 using namespace std; 
 
 
-//constructor, destructor, and helper copy function 
-
+//constructor 
 StickerSheet::StickerSheet(const Image & picture, unsigned max) {
     max_ = max; 
+    //copying our picture to an image pointer
     Image picture_ = picture; 
     //creating an array of pointers with size max
     array = new Image *[max_];
     //each image has an index and x,y coordinates 
     x_ = new unsigned[max];
     y_ = new unsigned[max];
+    //each ele in array should me assigned nullptr manually 
     for(unsigned i = 0; i < max; i++) {
         array[i] = nullptr; 
     }
 }
 
+//destructor 
 StickerSheet::~StickerSheet() {
     for (unsigned i = 0; i < max_; i++) {
         delete array[i];
@@ -31,9 +33,7 @@ StickerSheet::~StickerSheet() {
     delete[] x_;
     x_ = nullptr;  
     delete[] y_; 
-    y_ = nullptr;
-    delete[] new_array; 
-    new_array = nullptr;  
+    y_ = nullptr; 
 }
 
 
@@ -52,20 +52,20 @@ const StickerSheet & StickerSheet::operator=(const StickerSheet & other) {
 void StickerSheet::_copy(const StickerSheet & other) {
     max_ = other.max_; 
     picture_ = other.picture_; 
-    new_array = new Image * [max_];
+    array = new Image * [max_];
     x_ = new unsigned[max_];
     y_ = new unsigned[max_];
     for (unsigned i = 0; i < max_; i++) {
         if (array[i] != nullptr) {
-            new_array[i] = array[i]; 
+            array[i] = other.array[i];  
         } else {
-            new_array[i] = nullptr;
+            array[i] = nullptr; 
         }
     }
-    for (unsigned i = 0; i < sizeof(x_); i++) {
+    for (unsigned i = 0; i < max_; i++) {
         x_[i] = other.x_[i];
     }
-    for (unsigned i = 0; i < sizeof(y_); i++) {
+    for (unsigned i = 0; i < max_; i++) {
         y_[i] = other.y_[i];
     }
 }
@@ -74,6 +74,7 @@ void StickerSheet::_copy(const StickerSheet & other) {
 //member function documentation 
 int StickerSheet::addSticker(Image & sticker, unsigned x, unsigned y) {
     for (unsigned i = 0; i < max_; i++) {
+        //can only add to spaces that are nullptr
         if (array[i] == nullptr) {
         array[i] = new Image(sticker); 
         x_[i] = x; 
@@ -86,19 +87,19 @@ int StickerSheet::addSticker(Image & sticker, unsigned x, unsigned y) {
 }
 
 void StickerSheet::changeMaxStickers(unsigned max) {
-    
-    //create a new arrays with size max 
-    new_array = new Image * [max];
-    new_x = new unsigned[max];
-    new_y = new unsigned[max];
 
     //if given max is equal to our max then do nothing
     if (max == max_) {
         return;
     }
 
-    //copy elements including coordinates from our arrays to new arrays
+    cout << "reacher line 96" << endl; 
+
+    
     if (max > max_) {
+    Image ** new_array = new Image * [max];
+    unsigned * new_x = new unsigned[max];
+    unsigned * new_y = new unsigned[max];
         for (unsigned i = 0; i < max; i++) {
             if (array[i] != nullptr) {
                 new_array[i] = array[i];
@@ -106,29 +107,46 @@ void StickerSheet::changeMaxStickers(unsigned max) {
                 new_y[i] = y_[i];
             } else {
                 new_array[i] = nullptr; 
-            } 
+            }
         }
+        array = new_array;
+        x_ = new_x; 
+        y_ = new_y; 
+        max_ = max; 
+
+        delete[] new_array; 
+        new_array = nullptr; 
+        delete[] new_x; 
+        new_x = nullptr; 
+        delete[] new_y; 
+        new_y = nullptr;
     }
 
-    //if given max is less than our max, then delete those elements 
     if (max < max_) {
-        for (unsigned i = max_; i < max; i++) {
-            removeSticker(i);
+        Image ** temp_array = new Image * [max];
+        unsigned * temp_x = new unsigned[max];
+        unsigned * temp_y = new unsigned[max];
+        for (unsigned i = 0; i < max; i++) {
+            if (array[i] != nullptr) {
+                temp_array[i] = array[i];
+                temp_x[i] = x_[i];
+                temp_y[i] = y_[i];
+            } else {
+                temp_array[i] = nullptr; 
+            }
         }
+        array = temp_array;
+        x_ = temp_x;
+        y_ = temp_y;
+        max_ = max;  
+
+        delete[] temp_array; 
+        temp_array = nullptr; 
+        delete[] temp_x; 
+        temp_x = nullptr; 
+        delete[] temp_y; 
+        temp_y = nullptr; 
     }
-
-    //we have to set existing arrays equal to new modified arrays 
-    array = new_array; 
-    x_ = new_x; 
-    y_ = new_y; 
-
-    //freeing new arrays to prevent memory leak 
-    delete[] new_array; 
-    new_array = nullptr; 
-    delete[] new_x; 
-    new_x = nullptr; 
-    delete[] new_y; 
-    new_y = nullptr; 
 }
 
 Image * StickerSheet::getSticker(unsigned index) {
@@ -143,9 +161,11 @@ Image * StickerSheet::getSticker(unsigned index) {
 
 void StickerSheet::removeSticker (unsigned index) {
     for (unsigned i = 0; i < max_; i++) {
-        delete array[index];
-    //even tho we delete, the space still exists 
-        array[index] = nullptr;  
+        if ((index == max_) && (array[index] == nullptr) ) {
+            delete array[index];
+            //although we delete, the space still exists
+            array[index] = nullptr;
+        }
     }
 }
 
