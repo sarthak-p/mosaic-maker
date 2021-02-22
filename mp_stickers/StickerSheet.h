@@ -22,12 +22,12 @@ class StickerSheet {
     Image * getSticker(unsigned index);
 
     private:
+    Image picture_; 
+    Image ** array; 
+    Image ** new_array; 
     unsigned max_; 
     unsigned * x_; 
     unsigned * y_;
-    Image picture_; 
-    Image ** array;
-    Image ** new_array; 
     unsigned * new_x; 
     unsigned * new_y;  
     void _copy(const StickerSheet & other); 

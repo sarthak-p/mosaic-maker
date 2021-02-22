@@ -221,6 +221,8 @@ void Image::scale(double factor) {
             current = scales; 
         }
     }
+
+    delete scale; 
 }
 
 void Image::scale(unsigned w, unsigned h) {
