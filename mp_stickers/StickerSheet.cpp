@@ -11,7 +11,7 @@ StickerSheet::StickerSheet(const Image & picture, unsigned max) {
     //copying our picture to an image pointer
     picture_ = picture; 
     //creating an array of pointers with size max
-    array = new Image *[max_];
+    array = new Image * [max];
     //each image has an index and x,y coordinates 
     x_ = new unsigned[max];
     y_ = new unsigned[max];
