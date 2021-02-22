@@ -91,6 +91,7 @@ int StickerSheet::addSticker(Image & sticker, unsigned x, unsigned y) {
     return -1;
 }
 
+
 void StickerSheet::changeMaxStickers(unsigned max) {
 
     Image ** new_array = new Image * [max];
@@ -113,12 +114,6 @@ void StickerSheet::changeMaxStickers(unsigned max) {
         }
     }
 
-    //if given array is smaller than
-    if (max < max_) {
-        for (unsigned i = max; i < max_; i++) {
-            delete new_array[i]; 
-        }
-    }
     array = new_array;
     x_ = new_x; 
     y_ = new_y; 
