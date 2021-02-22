@@ -180,8 +180,8 @@ Image StickerSheet::render() const {
     for (unsigned i = 0; i < max_; i++) {
         
         if (array[i] != nullptr) {
-            highest = (x_[i] + array[i]->width());
-            widest = (y_[i] + array[i]->height());
+            highest = (y_[i] + array[i]->height());
+            widest = (x_[i] + array[i]->width());
         }
         if (height_ < highest) {
             height_ = highest; 
@@ -191,7 +191,7 @@ Image StickerSheet::render() const {
         }
     }
 
-    base.resize(height_, width_);
+    base.resize(width_, height_);
 
     for (unsigned i = 0; i < max_; i++) {
         if (array[i] != nullptr) {
