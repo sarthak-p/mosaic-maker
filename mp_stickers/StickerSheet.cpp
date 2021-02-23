@@ -15,7 +15,7 @@ StickerSheet::StickerSheet(const Image & picture, unsigned max) {
     //each image has an index and x,y coordinates 
     x_ = new unsigned[max_];
     y_ = new unsigned[max_];
-    //each ele in array should me assigned nullptr manually 
+    //each ele in array should me assigned nullptr manually
     for(unsigned i = 0; i < max_; i++) {
         array[i] = nullptr; 
     }
@@ -43,8 +43,6 @@ void StickerSheet::_copy(const StickerSheet & other) {
     for (unsigned i = 0; i < max_; i++) {
         if (other.array[i] != nullptr) {
             array[i] = other.array[i];
-        } else {
-            array[i] = nullptr; 
             x_[i] = other.x_[i]; 
             y_[i] = other.y_[i]; 
         }
@@ -55,8 +53,8 @@ void StickerSheet::_clear() {
     //freeing each element in the array 
     for (unsigned i = 0; i < max_; i++) {
         if (array[i] != nullptr) {
-            array[i] = nullptr; 
             delete array[i];
+            array[i] = nullptr;
         }
     }
 
@@ -64,7 +62,7 @@ void StickerSheet::_clear() {
     delete[] array; 
     array = nullptr; 
     delete[] x_;
-    x_ = nullptr;  
+    x_ = nullptr; 
     delete[] y_; 
     y_ = nullptr; 
 
@@ -77,7 +75,7 @@ StickerSheet::~StickerSheet() {
 
 
 //member function documentation 
-int StickerSheet::addSticker(Image & sticker, unsigned x, unsigned y) {
+int StickerSheet::addSticker(Image & sticker, unsigned x, unsigned y) { 
     Image * point = &sticker; 
     for (unsigned i = 0; i < max_; i++) {
         //can only add to spaces that are nullptr
@@ -104,13 +102,18 @@ void StickerSheet::changeMaxStickers(unsigned max) {
     }
 
     //adding all elements to the array
-    for (unsigned i = 0; i < max; i++) {
+    for (unsigned i = 0; i < max_; i++) {
         if (array[i] != nullptr) {
             new_array[i] = array[i];
             new_x[i] = x_[i];
             new_y[i] = y_[i];
-        } else {
-            new_array = nullptr; 
+        }
+    }
+
+    if (max < max_) {
+        for (unsigned i = max; i < max_; i++) {
+            delete array[i];
+            array[i] = nullptr; 
         }
     }
 
