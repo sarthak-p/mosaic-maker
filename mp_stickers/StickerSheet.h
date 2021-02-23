@@ -21,6 +21,7 @@ class StickerSheet {
     void removeSticker(unsigned index);
     Image * getSticker(unsigned index);
     void _copy(const StickerSheet & other); 
+    void _clear();
 
 
     private:
