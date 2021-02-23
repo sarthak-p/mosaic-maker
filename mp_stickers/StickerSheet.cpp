@@ -50,13 +50,6 @@ void StickerSheet::_copy(const StickerSheet & other) {
 }
 
 void StickerSheet::_clear() {
-    //freeing each element in the array 
-    for (unsigned i = 0; i < max_; i++) {
-        if (array[i] != nullptr) {
-            delete array[i];
-            array[i] = nullptr;
-        }
-    }
 
     //deleting the arrays 
     delete[] array; 
@@ -102,7 +95,7 @@ void StickerSheet::changeMaxStickers(unsigned max) {
         unsigned * new_x = new unsigned[max];
         unsigned * new_y = new unsigned[max];
 
-        for (unsigned i = 0; i < max_; i++) {
+        for (unsigned i = 0; i < max; i++) {
             new_array[i] = array[i];
             new_x[i] = x_[i];
             new_y[i] = y_[i];
