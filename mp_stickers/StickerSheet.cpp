@@ -92,36 +92,27 @@ int StickerSheet::addSticker(Image & sticker, unsigned x, unsigned y) {
 
 void StickerSheet::changeMaxStickers(unsigned max) {
 
-    Image ** new_array = new Image * [max];
-    unsigned * new_x = new unsigned[max];
-    unsigned * new_y = new unsigned[max];
+    
 
     //if given max is equal to our max then do nothing
     if (max == max_) {
         return;
-    }
+    } else {
+        Image ** new_array = new Image * [max];
+        unsigned * new_x = new unsigned[max];
+        unsigned * new_y = new unsigned[max];
 
-    //adding all elements to the array
-    for (unsigned i = 0; i < max_; i++) {
-        if (array[i] != nullptr) {
+        for (unsigned i = 0; i < max_; i++) {
             new_array[i] = array[i];
             new_x[i] = x_[i];
             new_y[i] = y_[i];
         }
+        _clear(); 
+        array = new_array; 
+        x_ = new_x; 
+        y_ = new_y; 
+        max_ = max; 
     }
-
-    if (max < max_) {
-        for (unsigned i = max; i < max_; i++) {
-            delete array[i];
-            array[i] = nullptr; 
-        }
-    }
-
-    _clear(); 
-    array = new_array; 
-    x_ = new_x; 
-    y_ = new_y; 
-    max_ = max; 
 }
 
 Image * StickerSheet::getSticker(unsigned index) {
