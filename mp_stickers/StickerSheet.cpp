@@ -1,6 +1,7 @@
 #include "StickerSheet.h"
 #include "Image.h"
 #include <iostream>
+#include <algorithm>
 
 using namespace std; 
 
@@ -15,10 +16,6 @@ StickerSheet::StickerSheet(const Image & picture, unsigned max) {
     //each image has an index and x,y coordinates 
     x_ = new unsigned[max_];
     y_ = new unsigned[max_];
-    //each ele in array should me assigned nullptr manually
-    for(unsigned i = 0; i < max_; i++) {
-        array[i] = nullptr; 
-    }
 }
 
 StickerSheet::StickerSheet(const StickerSheet & other) {
@@ -41,16 +38,13 @@ void StickerSheet::_copy(const StickerSheet & other) {
     x_ = new unsigned[max_];
     y_ = new unsigned[max_];
     for (unsigned i = 0; i < max_; i++) {
-        if (other.array[i] != nullptr) {
-            array[i] = other.array[i];
-            x_[i] = other.x_[i]; 
-            y_[i] = other.y_[i]; 
-        }
+        array[i] = other.array[i];
+        x_[i] = other.x_[i]; 
+        y_[i] = other.y_[i]; 
     }
 }
 
 void StickerSheet::_clear() {
-
     //deleting the arrays 
     delete[] array; 
     array = nullptr; 
@@ -58,7 +52,6 @@ void StickerSheet::_clear() {
     x_ = nullptr; 
     delete[] y_; 
     y_ = nullptr; 
-
 }
 
 //destructor 
@@ -69,23 +62,28 @@ StickerSheet::~StickerSheet() {
 
 //member function documentation 
 int StickerSheet::addSticker(Image & sticker, unsigned x, unsigned y) { 
-    Image * point = &sticker; 
+    Image * pointer = &sticker;  
     for (unsigned i = 0; i < max_; i++) {
-        //can only add to spaces that are nullptr
-        if (array[i] == nullptr) {
+        if (array[i] != NULL) {
+        //can only add to spaces that are NULL
             x_[i] = x; 
             y_[i] = y; 
-            array[i] = point;  
-            return i;  
+            array[i] = pointer;  
+            return i;
         }
     }
-    return -1;
+    return -1; 
 }
 
 
 void StickerSheet::changeMaxStickers(unsigned max) {
 
-    
+    unsigned number; 
+    if (max > max_) {
+        number = max_; 
+    } else if (max < max_) {
+        number = max; 
+    }
 
     //if given max is equal to our max then do nothing
     if (max == max_) {
@@ -95,7 +93,7 @@ void StickerSheet::changeMaxStickers(unsigned max) {
         unsigned * new_x = new unsigned[max];
         unsigned * new_y = new unsigned[max];
 
-        for (unsigned i = 0; i < max; i++) {
+        for (unsigned i = 0; i < number; i++) {
             new_array[i] = array[i];
             new_x[i] = x_[i];
             new_y[i] = y_[i];
@@ -120,9 +118,9 @@ Image * StickerSheet::getSticker(unsigned index) {
 
 void StickerSheet::removeSticker (unsigned index) {
     for (unsigned i = 0; i < max_; i++) {
-        if ((index < max_) && (array[index] != nullptr)) {
+        if ((index < max_) && (array[index] != NULL)) {
             delete array[index];
-            array[index] = nullptr;
+            array[index] = NULL;
         }
     }
 }
@@ -139,7 +137,7 @@ Image StickerSheet::render() const {
     //checking if each sticker is out of bounds 
     for (unsigned i = 0; i < max_; i++) {
         
-        if (array[i] != nullptr) {
+        if (array[i] != NULL) {
             highest = (y_[i] + array[i]->height());
             widest = (x_[i] + array[i]->width());
         }
@@ -154,7 +152,7 @@ Image StickerSheet::render() const {
     base.resize(width_, height_);
 
     for (unsigned i = 0; i < max_; i++) {
-        if (array[i] != nullptr) {
+        if (array[i] != NULL) {
             for(unsigned w = x_[i]; w < (array[i]->width() + x_[i]); w++) {
                 for(unsigned h = y_[i]; h < (array[i]->height() + y_[i]); h++) {
                     HSLAPixel & pixel = base.getPixel(w, h);
@@ -174,7 +172,7 @@ Image StickerSheet::render() const {
 bool StickerSheet::translate(unsigned index, unsigned x, unsigned y) {
 
     for (unsigned i = 0; i < max_; i++) {
-        if ((i == index) && (array[i] != nullptr)) {
+        if ((i == index) && (array[i] != NULL)) {
             x_[i] = x; 
             y_[i] = y; 
             return true; 
@@ -182,12 +180,3 @@ bool StickerSheet::translate(unsigned index, unsigned x, unsigned y) {
     }
     return false; 
 }
-
-
-
-
-
-
-
-
-
