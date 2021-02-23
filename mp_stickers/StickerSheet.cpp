@@ -11,48 +11,26 @@ StickerSheet::StickerSheet(const Image & picture, unsigned max) {
     //copying our picture to an image pointer
     picture_ = picture; 
     //creating an array of pointers with size max
-    array = new Image * [max];
+    array = new Image * [max_];
     //each image has an index and x,y coordinates 
-    x_ = new unsigned[max];
-    y_ = new unsigned[max];
+    x_ = new unsigned[max_];
+    y_ = new unsigned[max_];
     //each ele in array should me assigned nullptr manually 
-    for(unsigned i = 0; i < max; i++) {
+    for(unsigned i = 0; i < max_; i++) {
         array[i] = nullptr; 
     }
 }
-
-//destructor 
-StickerSheet::~StickerSheet() {
-    //freeing each element in the array 
-    for (unsigned i = 0; i < max_; i++) {
-        array[i] = nullptr; 
-        delete array[i]; 
-    }
-
-    //deleting the arrays 
-    delete[] array; 
-    array = nullptr; 
-    delete[] x_;
-    x_ = nullptr;  
-    delete[] y_; 
-    y_ = nullptr; 
-}
-
 
 StickerSheet::StickerSheet(const StickerSheet & other) {
     _copy(other);
 }
 
 const StickerSheet & StickerSheet::operator=(const StickerSheet & other) {
-    delete[] array; 
-    array = nullptr; 
-    delete[] x_;
-    x_ = nullptr;  
-    delete[] y_; 
-    y_ = nullptr; 
-    _copy(other); 
-
-    return *this; 
+    if (this != &other) {
+        _clear();
+        _copy(other);
+    }
+    return *this;
 }
 
 
@@ -67,12 +45,34 @@ void StickerSheet::_copy(const StickerSheet & other) {
             array[i] = other.array[i];
         } else {
             array[i] = nullptr; 
+            x_[i] = other.x_[i]; 
+            y_[i] = other.y_[i]; 
         }
     }
+}
+
+void StickerSheet::_clear() {
+    //freeing each element in the array 
     for (unsigned i = 0; i < max_; i++) {
-        x_[i] = other.x_[i];
-        y_[i] = other.y_[i]; 
+        if (array[i] != nullptr) {
+            array[i] = nullptr; 
+            delete array[i];
+        }
     }
+
+    //deleting the arrays 
+    delete[] array; 
+    array = nullptr; 
+    delete[] x_;
+    x_ = nullptr;  
+    delete[] y_; 
+    y_ = nullptr; 
+
+}
+
+//destructor 
+StickerSheet::~StickerSheet() {
+    _clear(); 
 }
 
 
@@ -110,21 +110,15 @@ void StickerSheet::changeMaxStickers(unsigned max) {
             new_x[i] = x_[i];
             new_y[i] = y_[i];
         } else {
-            new_array[i] = nullptr; 
+            new_array = nullptr; 
         }
     }
 
-    array = new_array;
+    _clear(); 
+    array = new_array; 
     x_ = new_x; 
     y_ = new_y; 
     max_ = max; 
-
-    delete[] new_array;
-    new_array = nullptr;  
-    delete[] new_x;
-    new_x = nullptr; 
-    delete[] new_y;
-    new_y = nullptr;
 }
 
 Image * StickerSheet::getSticker(unsigned index) {
