@@ -139,3 +139,15 @@ void Truck::clear()
     delete engine;
 }
 
+//draw() is a virtual method and we have to implement it in derived class
+
+void Truck::draw(PNG *canvas) const {
+    trailer->draw(canvas);
+    cabin->draw(canvas);
+    window->draw(canvas);
+    engine->draw(canvas);
+
+    for (int i = 0; i < NUM_WHEELS; i++) {
+        wheels[i]->draw(canvas);
+    }
+}

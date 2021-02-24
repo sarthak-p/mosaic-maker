@@ -8,6 +8,8 @@
 #include "drawable.h"
 #include "vector2.h"
 
+using namespace cs225; 
+
 /**
  * An abstract base class that represents a Shape which has an area,
  * perimeter, color, and can contain Vector2s. Shapes are also drawable, so
