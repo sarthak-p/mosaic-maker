@@ -49,6 +49,14 @@ Flower::Flower(const Vector2& center)
     leaf = my_leaf;
 }
 
+Flower::~Flower() {
+    delete my_stem; 
+    my_stem = nullptr; 
+    delete my_pistil; 
+    my_pistil = nullptr; 
+    delete my_leaf; 
+    my_leaf = nullptr; 
+}
 
 void Flower::drawPetals(PNG* canvas, const Vector2& center, int x, int y) const
 {
