@@ -3,6 +3,7 @@
 
 int main() {
 
+  Image output
   //
   // Reminder:
   //   Before exiting main, save your creation to disk as myImage.png
