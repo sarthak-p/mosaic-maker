@@ -112,6 +112,18 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
   /// @todo Graded in MP3.1
   ListNode * curr = start;
 
+  if (length_ == 0) {
+    return List<T>; 
+  }
+
+  if (splitPoint > length_) {
+    return List<T>;
+  } else if (splitPoint < length) {
+    for (int i = 0; i < splitPoint || curr != NULL; i++) {
+
+    }
+  }
+
   for (int i = 0; i < splitPoint || curr != NULL; i++) {
     curr = curr->next;
   }
