@@ -8,6 +8,7 @@ List<T>::List() {
   // @TODO: graded in MP3.1
     ListNode* head_ = NULL;
     ListNode* tail_ = NULL;
+    length_ = 0; 
 }
 
 /**
@@ -17,7 +18,8 @@ List<T>::List() {
 template <typename T>
 typename List<T>::ListIterator List<T>::begin() const {
   // @TODO: graded in MP3.1
-  return List<T>::ListIterator(NULL);
+  return List<T>::ListIterator(head_);
+
 }
 
 /**
@@ -26,7 +28,7 @@ typename List<T>::ListIterator List<T>::begin() const {
 template <typename T>
 typename List<T>::ListIterator List<T>::end() const {
   // @TODO: graded in MP3.1
-  return List<T>::ListIterator(NULL);
+  return List<T>::ListIterator(tail_);
 }
 
 
@@ -36,6 +38,7 @@ typename List<T>::ListIterator List<T>::end() const {
  */
 template <typename T>
 void List<T>::_destroy() {
+
   /// @todo Graded in MP3.1
 }
 
@@ -48,20 +51,22 @@ void List<T>::_destroy() {
 template <typename T>
 void List<T>::insertFront(T const & ndata) {
   /// @todo Graded in MP3.1
+
+  //creating a new node 
   ListNode * newNode = new ListNode(ndata);
-  newNode -> next = head_;
-  newNode -> prev = NULL;
-  
-  if (head_ != NULL) {
-    head_ -> prev = newNode;
-  }
-  if (tail_ == NULL) {
-    tail_ = newNode;
-  }
-  
 
-  length_++;
-
+  //we have two possibilities to consider
+  //one is when the list is empty
+  if (length_ == 0) {
+    head_ = newNode; 
+    tail_ = newNode; 
+  //set the new nose to the next node of the current node
+  //finally set head to new node 
+    } else {
+      newNode -> next = head_; 
+      head_ = newNode; 
+    }
+    length_++;
 }
 
 /**
@@ -73,6 +78,17 @@ void List<T>::insertFront(T const & ndata) {
 template <typename T>
 void List<T>::insertBack(const T & ndata) {
   /// @todo Graded in MP3.1
+  ListNode *newNode = new ListNode(ndata);
+
+  if (length_ == 0) {
+    head_ = newNode; 
+    tail_ = newNode; 
+  } else {
+    newNode->prev = tail_; 
+    tail_ = newNode; 
+  }
+  length_++;
+
 }
 
 /**

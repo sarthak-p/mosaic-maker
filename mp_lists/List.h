@@ -129,7 +129,6 @@ class List {
      * @param ndata The data to be inserted.
      */
     void insertFront(const T& ndata);
-
     /**
      * Inserts a new node at the back of the List.
      * This function **SHOULD** create a new ListNode.
