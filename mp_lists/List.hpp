@@ -120,7 +120,6 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
       curr->prev->next = NULL;
       curr->prev = NULL;
   }
-
   return NULL;
 }
 
