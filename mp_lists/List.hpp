@@ -28,7 +28,7 @@ typename List<T>::ListIterator List<T>::begin() const {
 template <typename T>
 typename List<T>::ListIterator List<T>::end() const {
   // @TODO: graded in MP3.1
-  return List<T>::ListIterator(tail_);
+  return List<T>::ListIterator(NULL);
 }
 
 
@@ -147,6 +147,11 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
         template <typename T>
         void List<T>::tripleRotate()
         {
+          //algorithm:
+          for (int i = 0; i < end(); i++) {
+            for (int i = 0; i )
+
+          }
           // @todo Graded in MP3.1
         }
 
