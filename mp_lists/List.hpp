@@ -38,14 +38,18 @@ typename List<T>::ListIterator List<T>::end() const {
  */
 template <typename T>
 void List<T>::_destroy() {
-  while (head_ != NULL) {
+
+  if (length_ == 0) {
+    return; 
+  } else { 
+    while (head_ != NULL) {
     ListNode *next = head_->next;
     delete head_; 
     head_ = next;
+    }
+    head_ = NULL;
+    tail_ = NULL; 
   }
-  head_ = NULL;
-  tail_ = NULL; 
-  /// @todo Graded in MP3.1
 }
 
 /**
@@ -119,19 +123,16 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
 
   ListNode *curr = start;
 
-  if (splitPoint > length_) {
-    return head_;
+  if (length_ < splitPoint || curr->next == NULL) {
+    return curr;
+  } 
+  
+  for (int i = 0; i < splitPoint; i++ && curr->next != NULL) {
+    curr = curr->next;
   }
-
-  if (splitPoint < length_) {
-    for (int i = 0; i < splitPoint || curr != NULL; i++) {
-      curr = curr->next;
-      curr->prev->next = NULL;
-      curr->prev = NULL;
-      return curr; 
-      }
-  }
-  return NULL; 
+  curr->prev->next = NULL;
+  curr->prev = NULL;
+  return curr; 
 }
   /**
   * Modifies List using the rules for a TripleRotate.
