@@ -38,7 +38,13 @@ typename List<T>::ListIterator List<T>::end() const {
  */
 template <typename T>
 void List<T>::_destroy() {
-
+  while (head_ != NULL) {
+    ListNode *next = head_->next;
+    delete head_; 
+    head_ = next;
+  }
+  head_ = NULL;
+  tail_ = NULL; 
   /// @todo Graded in MP3.1
 }
 
