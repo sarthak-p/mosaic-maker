@@ -58,23 +58,17 @@ template <typename T>
 void List<T>::insertFront(T const & ndata) {
   /// @todo Graded in MP3.1
 
-  //creating a new node 
   ListNode * newNode = new ListNode(ndata);
-
-  //we have two possibilities to consider
-  //one is when the list is empty
   if (length_ == 0) {
     head_ = newNode; 
     tail_ = newNode; 
-  //set the new node to the next node of the current node
-  //finally set head to new node 
-    } else {
-      newNode -> next = head_; 
-      head_ = newNode; 
-    }
-    length_++;
+    length_++; 
+    return; 
+  } 
+  head_-> prev = newNode; 
+  head_ = newNode; 
+  length_++; 
 }
-
 /**
  * Inserts a new node at the back of the List.
  * This function **SHOULD** create a new ListNode.
@@ -86,20 +80,16 @@ void List<T>::insertBack(const T & ndata) {
   /// @todo Graded in MP3.1
   ListNode *newNode = new ListNode(ndata);
 
-  //we have two possibilities to consider
-  //one is when the list is empty
   if (length_ == 0)
   {
     head_ = newNode;
     tail_ = newNode;
-    //set the new node to the next node of the current node
-    //finally set head to new node
+    length_++; 
+    return; 
   }
-  else {
-    newNode->prev = tail_;
-    tail_ = newNode;
-  }
-  length_++;
+    tail_->next = newNode; 
+    tail_ = newNode; 
+    length_++; 
 }
 
 /**
