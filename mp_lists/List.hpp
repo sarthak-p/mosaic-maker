@@ -86,15 +86,20 @@ void List<T>::insertBack(const T & ndata) {
   /// @todo Graded in MP3.1
   ListNode *newNode = new ListNode(ndata);
 
-  if (length_ == 0) {
-    head_ = newNode; 
-    tail_ = newNode; 
-  } else {
-    newNode->prev = tail_; 
-    tail_ = newNode; 
+  //we have two possibilities to consider
+  //one is when the list is empty
+  if (length_ == 0)
+  {
+    head_ = newNode;
+    tail_ = newNode;
+    //set the new node to the next node of the current node
+    //finally set head to new node
+  }
+  else {
+    newNode->prev = tail_;
+    tail_ = newNode;
   }
   length_++;
-
 }
 
 /**
