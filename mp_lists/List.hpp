@@ -62,12 +62,12 @@ void List<T>::insertFront(T const & ndata) {
   if (length_ == 0) {
     head_ = newNode; 
     tail_ = newNode; 
-    length_++; 
-    return; 
-  } 
-  head_-> prev = newNode; 
-  head_ = newNode; 
-  length_++; 
+  } else {
+    newNode->next = head_; 
+    head_->prev = newNode; 
+    head_ = newNode; 
+  }
+  length_ ++;
 }
 /**
  * Inserts a new node at the back of the List.
@@ -83,13 +83,13 @@ void List<T>::insertBack(const T & ndata) {
   if (length_ == 0)
   {
     head_ = newNode;
-    tail_ = newNode;
-    length_++; 
-    return; 
-  }
-    tail_->next = newNode; 
     tail_ = newNode; 
-    length_++; 
+  } else {
+    newNode->prev = tail_; 
+    tail_->next = newNode;
+    tail_ = newNode;  
+   } 
+   length_++; 
 }
 
 /**
