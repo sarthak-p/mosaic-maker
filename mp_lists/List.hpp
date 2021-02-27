@@ -66,7 +66,7 @@ void List<T>::insertFront(T const & ndata) {
   if (length_ == 0) {
     head_ = newNode; 
     tail_ = newNode; 
-  //set the new nose to the next node of the current node
+  //set the new node to the next node of the current node
   //finally set head to new node 
     } else {
       newNode -> next = head_; 
@@ -130,10 +130,10 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
 
   if (splitPoint < length_) {
     for (int i = 0; i < splitPoint || curr != NULL; i++) {
-        curr->prev->next = NULL;
-        curr->prev = NULL;
-        curr = curr->next;
-        return curr; 
+      curr = curr->next;
+      curr->prev->next = NULL;
+      curr->prev = NULL;
+      return curr; 
       }
   }
   return NULL; 
