@@ -154,7 +154,7 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
 
     for (int i = 1; i <= length_; i++) {
       curr = curr->next;
-      if (i % 3 == 0 && curr->next != NULL) {
+      if (i % 3 == 0) {
         prev1 = curr->prev; 
         prev2 = curr->prev->prev; 
         ListNode * temp = curr; 
