@@ -67,7 +67,7 @@ TEST_CASE("List::triplerotate basic", "[weight=5][part=1][valgrind]") {
 TEST_CASE("List::triplerotate simple", "[weight=10][part=1][valgrind]") {
     List<int> list;
 
-    for (int i = 1; i <= 6; i++)
+    for (int i = 1; i <= 4; i++)
         list.insertBack(i);
 
     list.tripleRotate();
