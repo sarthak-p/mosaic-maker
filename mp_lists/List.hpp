@@ -82,8 +82,9 @@ void List<T>::insertFront(T const & ndata) {
 template <typename T>
 void List<T>::insertBack(const T & ndata) {
   /// @todo Graded in MP3.1
-  ListNode *newNode = new ListNode(ndata);
+  ListNode * newNode = new ListNode(ndata);
 
+  //if length_ = 0, then the array is empty in which case both head and tail are newNode 
   if (length_ == 0)
   {
     head_ = newNode;
@@ -116,11 +117,6 @@ template <typename T>
 typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
   /// @todo Graded in MP3.1
 
-  //so we are given where to start
-  //so first we get to that node
-  //after that we walk splitNumber
-  //after we reach that point, we
-
   ListNode *curr = start;
 
   if (length_ < splitPoint || curr->next == NULL) {
@@ -130,8 +126,8 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
   for (int i = 0; i < splitPoint; i++ && curr->next != NULL) {
     curr = curr->next;
   }
-  curr->prev->next = NULL;
-  curr->prev = NULL;
+  curr->prev->next = NULL; 
+  curr->prev = NULL; 
   return curr; 
 }
   /**
@@ -144,18 +140,32 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
   * 
   * You may NOT allocate ANY new ListNodes!
   */
-        template <typename T>
-        void List<T>::tripleRotate()
-        {
-          //algorithm:
-          for (int i = 0; i < end(); i++) {
-            for (int i = 0; i )
+  template <typename T>
+  void List<T>::tripleRotate() {
 
-          }
-          // @todo Graded in MP3.1
-        }
+    ListNode * curr = head_; 
+    ListNode * prev1 = NULL; 
+    ListNode * prev2 = NULL; 
 
-        /**
+    if(length_ == 1 || length_ == 2) {
+      return; 
+    }
+
+    for (int i = 1; i <= length_; i++) {
+      curr = curr->next;
+      if (i % 3 == 0 && curr->next != NULL) {
+        prev1 = curr->prev; 
+        prev2 = curr->prev->prev; 
+        prev1->prev = prev1; 
+        prev2->next = prev2;
+        curr->prev = curr; 
+        prev2->next = prev2; 
+        curr = prev2; 
+      }
+    }
+  }
+
+  /**
  * Reverses the current List.
  */
         template <typename T>
