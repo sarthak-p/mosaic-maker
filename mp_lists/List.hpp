@@ -152,34 +152,51 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
     ListNode *node1 = NULL;
     ListNode *node2 = NULL;
     ListNode *node4 = NULL; 
-
+    ListNode *node0 = NULL;
     if (length_ == 1 || length_ == 2) {
       return; 
     }
 
+    // node1 -> node2 -> node3 -> node4  
+    // 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
+    
     for (int i = 1; i <= length_; i++) {
-      curr = curr->next;
 
+      ListNode * curr2 = head_; 
+      while (curr2 != NULL) {
+        curr2 = curr2->next;
+      }
+      
       if (i % 3 == 0) {
         node2 = curr->prev;
-        node1 = node2->prev; 
-        node4 = curr->next; 
-
-        if (node4 == NULL) {
-          node1->next = NULL;
-          node1->prev = curr;   
-        } else {
-          node1->next = curr->next;
-          node1->prev = curr; 
-          node4->prev = node1; 
+        node1 = curr->prev->prev;
+        node4 = curr->next;
+        node0 = node1->prev;
+        node2->prev = node1->prev;
+        if (node0 != NULL) {
+          node0->next = node2;
         }
-
-        node2->prev = NULL; 
+        node2->next = curr;
+        curr->prev = node2;
+        node2->next = curr;
+        if (curr->next == NULL) {
+          node1->next = NULL;
+          node1->prev = curr;
+          tail_ = node1;
+        } else {
+          node1->next = node4;
+          node1->prev = curr;
+          node4->prev = node1;
+        }
         curr->next = node1;
-
+        
+        
         if (i == 3) {
-          head_ = node2; 
-        } 
+          head_ = node2;   
+        }
+        curr = curr->next->next;
+      } else {
+        curr = curr->next;
       }
     }
   }
