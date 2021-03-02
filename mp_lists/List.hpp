@@ -161,8 +161,8 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
       curr = curr->next;
 
       if (i % 3 == 0) {
-        node1 = curr->prev->prev; 
         node2 = curr->prev;
+        node1 = curr->prev->prev; 
         node4 = curr->next; 
 
         if (node4 == NULL) {
