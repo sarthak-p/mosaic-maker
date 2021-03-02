@@ -162,7 +162,7 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
 
       if (i % 3 == 0) {
         node2 = curr->prev;
-        node1 = curr->prev->prev; 
+        node1 = node2->prev; 
         node4 = curr->next; 
 
         if (node4 == NULL) {
