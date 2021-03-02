@@ -3,6 +3,10 @@
  * Doubly Linked List (MP 3).
  */
 
+#include <iostream>
+
+using namespace std; 
+
 template <class T>
 List<T>::List() { 
   // @TODO: graded in MP3.1
@@ -147,6 +151,7 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
     ListNode *curr = head_;
     ListNode *node1 = NULL;
     ListNode *node2 = NULL;
+    ListNode *node4 = NULL; 
 
     if (length_ == 1 || length_ == 2) {
       return; 
@@ -157,16 +162,19 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
 
       if (i % 3 == 0) {
         node1 = curr->prev->prev; 
-        node2 = curr->prev; 
-        ListNode * temp = curr; 
+        node2 = curr->prev;
+        node4 = curr->next; 
 
-        if (curr->next == NULL) {
-          node1->next = NULL; 
-          tail_ = node1; 
+        if (node4 == NULL) {
+          node1->next = NULL;
+          node1->prev = curr;   
         } else {
           node1->next = curr->next;
+          node1->prev = curr; 
+          node4->prev = node1; 
         }
-        node1->next = curr->next; 
+
+        node2->prev = NULL; 
         curr->next = node1;
 
         if (i == 3) {
