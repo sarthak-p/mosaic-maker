@@ -29,11 +29,23 @@ namespace QuackFun {
 template <typename T>
 T sum(stack<T>& s)
 {
+    //if stack is empty we have either successfuly summed everything or the stack is empty 
+    if (s.empty()) {
+        return 0;
+    }
 
-    // Your code here
-    return T(); // stub return value (0 for primitive types). Change this!
-                // Note: T() is the default value for objects, and 0 for
-                // primitive types
+    //we save the top element of the stack 
+    T top = s.top();
+    //we then remove it 
+    s.pop();
+    //adding the top to the sum while calling our stack recursively again 
+    T add = top + sum(s);
+    //returning the stack to the original configuration 
+    s.push(top);
+    return add;
+    // stub return value (0 for primitive types). Change this!
+    // Note: T() is the default value for objects, and 0 for
+    // primitive types
 }
 
 /**
@@ -53,12 +65,31 @@ T sum(stack<T>& s)
  * @param input The queue representation of a string to check for balanced brackets in
  * @return      Whether the input string had balanced brackets
  */
-bool isBalanced(queue<char> input)
-{
+bool isBalanced(queue<char> input) {
+    stack<char> st; 
 
-    // @TODO: Make less optimistic
-    return true;
+    for (unsigned i = 0; i < input.size(); i++) {
+        if (input.front() == '[') {
+            st.push('[');
+        } 
+        if (input.front() == ']') {
+            if (st.empty()) {
+                return false; 
+            } else {
+                st.pop(); 
+            }
+        }
+        input.pop(); 
+        input.push(input.front());
+    }
+    if (st.empty()) {
+        return true; 
+    } else {
+        return false; 
+    }
 }
+
+
 
 /**
  * Reverses even sized blocks of items in the queue. Blocks start at size

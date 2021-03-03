@@ -189,8 +189,7 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
           node4->prev = node1;
         }
         curr->next = node1;
-        
-        
+                
         if (i == 3) {
           head_ = node2;   
         }
