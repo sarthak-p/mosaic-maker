@@ -27,8 +27,7 @@ namespace QuackFun {
  *          stack in the same state (unchanged).
  */
 template <typename T>
-T sum(stack<T>& s)
-{
+T sum(stack<T>& s) {
     //if stack is empty we have either successfuly summed everything or the stack is empty 
     if (s.empty()) {
         return 0;
@@ -82,6 +81,7 @@ bool isBalanced(queue<char> input) {
         input.pop(); 
         input.push(input.front());
     }
+    //done with matching 
     if (st.empty()) {
         return true; 
     } else {
@@ -107,11 +107,36 @@ bool isBalanced(queue<char> input) {
  * @param q A queue of items to be scrambled
  */
 template <typename T>
-void scramble(queue<T>& q)
-{
+void scramble(queue<T>& q) {
     stack<T> s;
-    // optional: queue<T> q2;
-
-    // Your code here
+    queue<T> q2;
+    unsigned ref = 1; 
+    
+    while (!q.empty()) {
+        if (ref % 2 == 0) {
+            if (ref > q.size()) {
+                ref = q.size(); 
+            }
+            for(unsigned i = 0; i < ref; i++) {
+                s.push(q.front());
+                q.pop(); 
+            }
+            for (unsigned i = 0; i < ref; i++) {
+                q2.push(s.top());
+                s.pop(); 
+            }
+        } else if (ref % 2 != 0) {
+            if (ref > q.size()) {
+                ref = q.size();
+            }
+            for (unsigned i = 0; i < ref; i++) {
+                q2.push(q.front());
+                q.pop();
+            }
+        }
+        ref++; 
+    }
+    q = q2; 
 }
+
 }
