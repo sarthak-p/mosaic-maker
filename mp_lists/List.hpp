@@ -3,6 +3,7 @@
  * Doubly Linked List (MP 3).
  */
 
+#include "List.h"
 #include <iostream>
 
 using namespace std; 
@@ -223,6 +224,8 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
         template <typename T>
         void List<T>::reverse(ListNode * &startPoint, ListNode * &endPoint)
         {
+
+
           /// @todo Graded in MP3.2
         }
 
@@ -278,8 +281,46 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
         template <typename T>
         typename List<T>::ListNode *List<T>::merge(ListNode * first, ListNode * second)
         {
-          /// @todo Graded in MP3.2
-          return NULL;
+          ListNode * temp = NULL; 
+
+          //if one list doesn't exist, return the other. If either don't exist, return.  
+          if (first == NULL) {
+            return second; 
+          } else if (second == NULL) {
+            return first; 
+          }
+
+          //determine the first node in our end list 
+          if (second->data < first->data) {
+            temp = second;
+            second = second->next;
+          } else if (first->data < second->data) {
+            temp = first;
+            first = first->next;
+          }
+
+          ListNode * out = temp; 
+
+          while(first != NULL && second != NULL) {
+            if (first->data < second->data) {
+              temp->next = first; 
+              temp = first; 
+              first = first->next; 
+            } else {
+              temp->next = second;
+              temp = second; 
+              second = second->next; 
+            }
+          }
+
+          if (second == NULL) {
+            temp ->next = first; 
+            temp = first; 
+          } else if (first == NULL) {
+            temp ->next = second; 
+            temp = second; 
+          }
+          return out; 
         }
 
         /**
