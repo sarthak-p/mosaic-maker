@@ -224,9 +224,27 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
         template <typename T>
         void List<T>::reverse(ListNode * &startPoint, ListNode * &endPoint)
         {
+          ListNode *temp = startPoint;
+          ListNode *temp_next = NULL;
 
+          if (startPoint == NULL) {
+            return; 
+          } else if (endPoint == NULL) {
+            return; 
+          } else if (startPoint->next == NULL) {
+            return; 
+          }
+          
+          while (temp != NULL) {
+            temp_next = temp->next; 
+            temp->next = temp->prev;
+            temp->prev = temp_next;
+            temp = temp_next;
+          }
 
-          /// @todo Graded in MP3.2
+          temp = startPoint; 
+          startPoint = endPoint; 
+          endPoint = temp;
         }
 
         /**
@@ -238,8 +256,25 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
         template <typename T>
         void List<T>::reverseNth(int n)
         {
-          /// @todo Graded in MP3.2
+          int i = 0; 
+          ListNode * curr = head_; 
+          ListNode * start = head_;  
+
+          if (start == NULL) {
+            return; 
+          }
+
+          for (int x = 1; x < length_; x++) {
+            while (i <= n) {
+              curr = curr->next;
+              i++;
+            }
+            reverse(start, curr);
+            curr = curr->next;
+            start = curr; 
+          }
         }
+  
 
         /**
  * Merges the given sorted list into the current sorted list.
@@ -301,6 +336,7 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
 
           ListNode * out = temp; 
 
+          //compare both nodes simulataneously and create a new list 
           while(first != NULL && second != NULL) {
             if (first->data < second->data) {
               temp->next = first; 
@@ -313,6 +349,8 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
             }
           }
 
+          //if one list reaches NULL, then we connect our temp var to the other 
+          //list and our end list is complete 
           if (second == NULL) {
             temp ->next = first; 
             temp = first; 
