@@ -68,15 +68,17 @@ void List<T>::insertFront(T const & ndata) {
   /// @todo Graded in MP3.1
 
   ListNode * newNode = new ListNode(ndata);
+
   if (length_ == 0) {
     head_ = newNode; 
     tail_ = newNode; 
+    length_ = 1;  
   } else {
     newNode->next = head_; 
-    head_->prev = newNode; 
+    head_->prev = newNode;
     head_ = newNode; 
+    length_ ++;
   }
-  length_ ++;
 }
 /**
  * Inserts a new node at the back of the List.
@@ -94,12 +96,13 @@ void List<T>::insertBack(const T & ndata) {
   {
     head_ = newNode;
     tail_ = newNode; 
+    length_ = 1; 
   } else {
     newNode->prev = tail_; 
     tail_->next = newNode;
     tail_ = newNode;  
-   } 
-   length_++; 
+    length_++; 
+  }
 }
 
 /**
@@ -285,9 +288,6 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
             curr = curr->next;
             start = curr;
         }
-        
-
-  
 
         /**
  * Merges the given sorted list into the current sorted list.
@@ -388,5 +388,9 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
         template <typename T>
         typename List<T>::ListNode *List<T>::mergesort(ListNode * start, int chainLength)
         {
+          if (chainLength == 1) {
+            return start; 
+          }
+
           return NULL; 
         }
