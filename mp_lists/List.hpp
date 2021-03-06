@@ -282,7 +282,7 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
 
           //   reverse(start, curr);
           //   curr = curr->next;
-          //   start = curr; 
+          //   start = curr; k
           }
   
 
