@@ -237,17 +237,28 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
             return; 
           }
           
-          while (temp != NULL) {
+          while (temp != endPoint) {
             temp_next = temp->next; 
             temp->next = temp->prev;
             temp->prev = temp_next;
             temp = temp_next;
-          }
+          } 
+
+          startPoint->next = endPoint->next; 
+          endPoint->next = endPoint->prev; 
+          endPoint->prev = startPoint->prev; 
 
           temp = startPoint; 
           startPoint = endPoint;
           endPoint = temp;
-         }
+          
+          //checking if our new start and end are actually new start and end
+          if (start_prev != NULL) {
+            start_prev->next = startPoint; 
+          } else if (end_next != NULL) {
+            end_next->prev = endPoint;
+          }
+        }
 
         /**
  * Reverses blocks of size n in the current List. You should use your
@@ -374,4 +385,5 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
         template <typename T>
         typename List<T>::ListNode *List<T>::mergesort(ListNode * start, int chainLength)
         {
+          return NULL; 
         }
