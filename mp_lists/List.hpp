@@ -100,6 +100,7 @@ void List<T>::insertBack(const T & ndata) {
   } else {
     newNode->prev = tail_; 
     tail_->next = newNode;
+    newNode->next = NULL; 
     tail_ = newNode;  
     length_++; 
   }
@@ -351,14 +352,14 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
 
           //compare both nodes simulataneously and create a new list 
           while(first != NULL && second != NULL) {
-            if (second->data < first->data) {
-              temp->next = second; 
-              temp = second; 
-              second = second->next; 
-            } else {
-              temp->next = first;
+            if (first->data < second->data) {
+              temp->next = first; 
               temp = first; 
               first = first->next; 
+            } else {
+              temp->next = second;
+              temp = second; 
+              second = second->next; 
             }
           }
 
