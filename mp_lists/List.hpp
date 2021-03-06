@@ -258,20 +258,20 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
         template <typename T>
         void List<T>::reverseNth(int n)
         {
-          int i = 0; 
-          ListNode *curr = head_;
-          ListNode *start = head_;
+          // int i = 0; 
+          // ListNode * curr = head_;
+          // ListNode * start = head_;
 
-          for (int x = 1; x <= length_; x++) {
-            while (curr != NULL && i < n) {
-              curr = curr->next;
-              i++;
-              }
-            }
+          // for (int x = 1; x <= length_; x++) {
+          //   while (curr != NULL && i < n) {
+          //     curr = curr->next;
+          //     i++;
+          //     }
+          //   }
 
-            reverse(start, curr);
-            curr = curr->next;
-            start = curr; 
+          //   reverse(start, curr);
+          //   curr = curr->next;
+          //   start = curr; 
           }
   
 
@@ -374,5 +374,4 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
         template <typename T>
         typename List<T>::ListNode *List<T>::mergesort(ListNode * start, int chainLength)
         {
-          return NULL;
         }
