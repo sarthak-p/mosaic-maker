@@ -388,9 +388,21 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
         template <typename T>
         typename List<T>::ListNode *List<T>::mergesort(ListNode * start, int chainLength)
         {
+          //base case: if size = 1 then return the head 
           if (chainLength == 1) {
             return start; 
           }
 
+          //split the list into two smaller parts
+          ListNode * head_second = split(start, (int)chainLength / 2);
+
+          //recursively sort the first half 
+          start = mergesort(start, (int) chainLength / 2); 
+          //recursively sort the second half 
+          head_second = mergesort(head_second, (int) (chainLength % 2) + (chainLength / 2));
+
+          //merge the two lists 
+          return merge(start, head_second);
+          
           return NULL; 
         }
