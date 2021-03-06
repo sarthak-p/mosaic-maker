@@ -224,14 +224,16 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
         template <typename T>
         void List<T>::reverse(ListNode * &startPoint, ListNode * &endPoint)
         {
-          ListNode *temp = startPoint;
-          ListNode *temp_next = NULL;
+          ListNode * temp = startPoint;
+          ListNode * temp_next;
+          ListNode * end_next = endPoint->next; 
+          ListNode * start_prev = startPoint->prev; 
 
           if (startPoint == NULL) {
             return; 
           } else if (endPoint == NULL) {
             return; 
-          } else if (startPoint->next == NULL) {
+          } else if (temp->next == NULL) {
             return; 
           }
           
@@ -243,9 +245,9 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
           }
 
           temp = startPoint; 
-          startPoint = endPoint; 
+          startPoint = endPoint;
           endPoint = temp;
-        }
+         }
 
         /**
  * Reverses blocks of size n in the current List. You should use your
@@ -257,23 +259,20 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
         void List<T>::reverseNth(int n)
         {
           int i = 0; 
-          ListNode * curr = head_; 
-          ListNode * start = head_;  
+          ListNode *curr = head_;
+          ListNode *start = head_;
 
-          if (start == NULL) {
-            return; 
-          }
-
-          for (int x = 1; x < length_; x++) {
-            while (i <= n) {
+          for (int x = 1; x <= length_; x++) {
+            while (curr != NULL && i < n) {
               curr = curr->next;
               i++;
+              }
             }
+
             reverse(start, curr);
             curr = curr->next;
             start = curr; 
           }
-        }
   
 
         /**
@@ -375,6 +374,5 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
         template <typename T>
         typename List<T>::ListNode *List<T>::mergesort(ListNode * start, int chainLength)
         {
-          /// @todo Graded in MP3.2
           return NULL;
         }
