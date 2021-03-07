@@ -134,6 +134,25 @@ TEST_CASE("List::sort simple #2", "[weight=2][part=2][valgrind]")
     REQUIRE(s.str() == "< a b c >");
 }
 
+TEST_CASE("List::reverse test", "[weight=2][part=2][valgrind]")
+{
+    List<int> list;
+
+    list.insertBack(12);
+    list.insertBack(5);
+    list.insertBack(2);
+    list.insertBack(7);
+    list.insertBack(8);
+    list.insertBack(9);
+
+    list.reverse();
+
+    stringstream s;
+    list.print(s);
+
+    REQUIRE(s.str() == "< a b c >");
+}
+
 // TEST_CASE("List::sort #1", "[weight=5][part=2]")
 // {
 //     PNG expected;

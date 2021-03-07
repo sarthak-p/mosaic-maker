@@ -279,15 +279,20 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
           ListNode * curr = head_;
           ListNode * start = head_;
 
-          for (int x = 1; x <= length_; x++) {
+          for (int x = 1; x <= floor(length_ / n); x++) {
             while (curr != NULL && i < n) {
               curr = curr->next;
               i++;
-              }
             }
+            i = 0; 
             reverse(start, curr);
             curr = curr->next;
             start = curr;
+          }
+
+          if(curr != NULL) {
+            reverse(curr, tail_);
+          }
         }
 
         /**
