@@ -138,19 +138,20 @@ TEST_CASE("List::reverse test", "[weight=2][part=2][valgrind]")
 {
     List<int> list;
 
-    list.insertBack(12);
-    list.insertBack(5);
+    list.insertBack(1);
     list.insertBack(2);
-    list.insertBack(7);
-    list.insertBack(8);
-    list.insertBack(9);
+    list.insertBack(3);
+    list.insertBack(4);
+    list.insertBack(5);
+    list.insertBack(6);
 
     list.reverse();
 
     stringstream s;
+
     list.print(s);
 
-    REQUIRE(s.str() == "< a b c >");
+    REQUIRE(s.str() == "< 6 5 4 3 2 1 >");
 }
 
 TEST_CASE("List::reversenth", "[weight=2][part=2][valgrind]")
@@ -164,12 +165,12 @@ TEST_CASE("List::reversenth", "[weight=2][part=2][valgrind]")
     list.insertBack(5);
     list.insertBack(6);
 
-    list.reverseNth(3);
+    list.reverseNth(4);
 
     stringstream s;
     list.print(s);
 
-    REQUIRE(s.str() == "< a b c >");
+    REQUIRE(s.str() == "< 3 2 1 6 5 4 >");
 }
 
 // TEST_CASE("List::sort #1", "[weight=5][part=2]")

@@ -228,49 +228,43 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
         template <typename T>
         void List<T>::reverse(ListNode * &startPoint, ListNode * &endPoint)
         {
-          ListNode * temp = startPoint;
-          ListNode * temp_next;
-          ListNode * end_next = endPoint->next; 
-          ListNode * start_prev = startPoint->prev; 
+
+          ListNode *temp = startPoint;
+          ListNode *temp_next = NULL;
+          ListNode *end_next = endPoint->next;
+          ListNode *start_prev = startPoint->prev;
 
           if (startPoint == NULL) {
             return; 
           } else if (endPoint == NULL) {
-            return; 
-          } else if (temp->next == endPoint) {
+            return;
+          } else if (startPoint->next == endPoint) {
             return; 
           }
-          
+
           while (temp != endPoint) {
             temp_next = temp->next; 
             temp->next = temp->prev;
             temp->prev = temp_next;
             temp = temp_next;
-          } 
+          }
 
-          ListNode * new_end = startPoint; 
+          ListNode *new_end = startPoint;
 
           startPoint->next = endPoint->next; 
           endPoint->next = endPoint->prev; 
-          endPoint->prev = startPoint->prev; 
+          endPoint->prev = start_prev; 
 
           new_end = startPoint; 
           startPoint = endPoint;
           endPoint = new_end;
           
-          //checking if our new start and end are actually new start and end
-          if (start_prev != NULL) {
-            start_prev->next = startPoint; 
-          } else if (end_next != NULL) {
-            end_next->prev = endPoint;
-          }
-
-          if (head_ == startPoint) {
-            head_ = endPoint;
-          }
-          else if (tail_ == endPoint) {
-            tail_ = startPoint;
-          }
+          // //checking if our new start and end are actually new start and end
+          // if (start_prev != NULL) {
+          //   start_prev->next = startPoint; 
+          // } else if (end_next != NULL) {
+          //   end_next->prev = endPoint;
+          // }
         }
 
         /**
@@ -291,17 +285,23 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
               curr = curr->next;
               i++;
             }
-            i = 1; 
+            i = 1;
 
-            reverse(start, curr);
-            curr = curr->next;
+            if (curr == head_)
+              reverse(head_, start);
+            else if (start == tail_)
+              reverse(curr, tail_);
+            else
+              reverse(curr, start);
+
+            curr = start->next;
             start = curr;
           }
-
-          if(curr != NULL) {
+          
+          if (curr != NULL) {
             reverse(curr, tail_);
           }
-        }
+        
 
         /**
  * Merges the given sorted list into the current sorted list.
