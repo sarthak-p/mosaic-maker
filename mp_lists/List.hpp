@@ -259,12 +259,12 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
           startPoint = endPoint;
           endPoint = new_end;
           
-          // //checking if our new start and end are actually new start and end
-          // if (start_prev != NULL) {
-          //   start_prev->next = startPoint; 
-          // } else if (end_next != NULL) {
-          //   end_next->prev = endPoint;
-          // }
+          //checking if our new start and end are actually new start and end
+          if (start_prev != NULL) {
+            start_prev->next = startPoint; 
+          } else if (end_next != NULL) {
+            end_next->prev = endPoint;
+          }
         }
 
         /**
@@ -301,6 +301,7 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
           if (curr != NULL) {
             reverse(curr, tail_);
           }
+        }
         
 
         /**
