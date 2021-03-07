@@ -228,19 +228,23 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
         template <typename T>
         void List<T>::reverse(ListNode * &startPoint, ListNode * &endPoint)
         {
+          if (startPoint == NULL)
+          {
+            return;
+          }
+          else if (endPoint == NULL)
+          {
+            return;
+          }
+          else if (startPoint->next == endPoint)
+          {
+            return;
+          }
 
           ListNode *temp = startPoint;
-          ListNode *temp_next = NULL;
+          ListNode *temp_next;
           ListNode *end_next = endPoint->next;
           ListNode *start_prev = startPoint->prev;
-
-          if (startPoint == NULL) {
-            return; 
-          } else if (endPoint == NULL) {
-            return;
-          } else if (startPoint->next == endPoint) {
-            return; 
-          }
 
           while (temp != endPoint) {
             temp_next = temp->next; 
@@ -291,8 +295,8 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
               reverse(head_, start);
             else if (start == tail_)
               reverse(curr, tail_);
-            else
-              reverse(curr, start);
+            
+            reverse(curr, start);
 
             curr = start->next;
             start = curr;
@@ -421,3 +425,5 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
           
           return NULL; 
         }
+
+        //valgrind --leak-check=full ./test

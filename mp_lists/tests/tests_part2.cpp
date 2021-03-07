@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <random>
 
 #include "../cs225/PNG.h"
 #include "../cs225/HSLAPixel.h"
@@ -173,53 +174,57 @@ TEST_CASE("List::reversenth", "[weight=2][part=2][valgrind]")
     REQUIRE(s.str() == "< 3 2 1 6 5 4 >");
 }
 
-// TEST_CASE("List::sort #1", "[weight=5][part=2]")
-// {
-//     PNG expected;
-//     expected.readFromFile("tests/expected-sort_1.png");
+TEST_CASE("List::sort #1", "[weight=5][part=2]")
+{
+    PNG expected;
+    expected.readFromFile("tests/expected-sort_1.png");
 
-//     srand(225);
+    srand(225);
 
-//     BlockPNG b;
-//     b.readFromFile("tests/alma.png");
+    BlockPNG b;
+    b.readFromFile("tests/alma.png");
 
-//     int d = 60;
-//     vector<int> v = buildVector(b, d);
-//     random_shuffle(v.begin(), v.end());
+    int d = 60;
+    vector<int> v = buildVector(b, d);
+    std::random_device rng;
+    std::mt19937 urng(rng());
+    std::shuffle(v.begin(), v.end(), urng);
 
-//     List<int> img_srt(v.begin(), v.end());
-//     img_srt.sort();
-//     vector<int> v2(img_srt.begin(), img_srt.end());
+    List<int> img_srt(v.begin(), v.end());
+    img_srt.sort();
+    vector<int> v2(img_srt.begin(), img_srt.end());
 
-//     PNG b3 = b.genImg(v2, d);
-//     b3.writeToFile("actual-sort_1.png");
-//     INFO("Output image `b3` saved as actual-sort_1.png");
+    PNG b3 = b.genImg(v2, d);
+    b3.writeToFile("actual-sort_1.png");
+    INFO("Output image `b3` saved as actual-sort_1.png");
 
-//     REQUIRE(b3 == expected);
-// }
+    REQUIRE(b3 == expected);
+}
 
-// TEST_CASE("List::sort #2", "[weight=5][part=2]")
-// {
-//     PNG expected;
-//     expected.readFromFile("tests/expected-sort_2.png");
+TEST_CASE("List::sort #2", "[weight=5][part=2]")
+{
+    PNG expected;
+    expected.readFromFile("tests/expected-sort_2.png");
 
-//     srand(225);
+    srand(225);
 
-//     BlockPNG b;
-//     b.readFromFile("tests/alma.png");
+    BlockPNG b;
+    b.readFromFile("tests/alma.png");
 
-//     int d = 1;
-//     vector<int> v = buildVector(b, d);
-//     random_shuffle(v.begin(), v.end());
+    int d = 1;
+    vector<int> v = buildVector(b, d);
+    std::random_device rng;
+    std::mt19937 urng(rng());
+    std::shuffle(v.begin(), v.end(), urng);
 
-//     List<int> img_srt(v.begin(), v.end());
-//     img_srt.sort();
-//     vector<int> v2(img_srt.begin(), img_srt.end());
+    List<int> img_srt(v.begin(), v.end());
+    img_srt.sort();
+    vector<int> v2(img_srt.begin(), img_srt.end());
 
-//     PNG b3 = b.genImg(v2, d);
-//     b3.writeToFile("actual-sort_2.png");
-//     INFO("Output image `b3` saved as actual-sort_2.png");
+    PNG b3 = b.genImg(v2, d);
+    b3.writeToFile("actual-sort_2.png");
+    INFO("Output image `b3` saved as actual-sort_2.png");
 
-//     REQUIRE(b3 == expected);
-// }
+    REQUIRE(b3 == expected);
+}
 
