@@ -372,7 +372,7 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
           //compare both nodes simulataneously and create a new list 
           while(first != NULL && second != NULL) {
             if (first->data < second->data) {
-              temp->next = first; 
+              temp->next = first;
               temp = first; 
               first = first->next; 
             } else {
@@ -414,17 +414,16 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
           }
 
           //split the list into two smaller parts
-          ListNode * head_second = split(start, (int)chainLength / 2);
+          ListNode * head_second = split(start, (chainLength / 2));
 
           //recursively sort the first half 
-          start = mergesort(start, (int) chainLength / 2); 
+          start = mergesort(start, (chainLength / 2)); 
+
           //recursively sort the second half 
-          head_second = mergesort(head_second, (int) (chainLength % 2) + (chainLength / 2));
+          head_second = mergesort(head_second, ((chainLength % 2) + (chainLength / 2)));
 
           //merge the two lists 
           return merge(start, head_second);
-          
-          return NULL; 
         }
 
         //valgrind --leak-check=full ./test
