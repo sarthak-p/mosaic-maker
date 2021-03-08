@@ -238,8 +238,8 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
           }
 
           ListNode *temp = startPoint;
-          ListNode *temp_next = temp->next;
-          ListNode * start_prev = startPoint->prev; 
+          ListNode * start_prev = startPoint->prev;
+          ListNode * temp_next = temp->next;  
 
           temp->next = endPoint->next;
           temp->prev = temp_next; 
@@ -371,15 +371,16 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
 
           //compare both nodes simulataneously and create a new list 
           while(first != NULL && second != NULL) {
-            if (first->data < second->data) {
-              temp->next = first; 
-              temp = first; 
-              first = first->next; 
-            } else {
-              temp->next = second;
-              temp = second; 
+            if (second->data < first->data) {
+              temp->next = second; 
+              second->prev = temp; 
               second = second->next; 
+            } else {
+              temp->next = first;
+              first->prev = temp; 
+              first = first->next;
             }
+            temp = temp->next; 
           }
 
           //if one list reaches NULL, then we connect our temp var to the other 
