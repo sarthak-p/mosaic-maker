@@ -228,23 +228,21 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
         template <typename T>
         void List<T>::reverse(ListNode * &startPoint, ListNode * &endPoint)
         {
-          if (startPoint == NULL)
-          {
+
+          if (startPoint == NULL) {
             return;
-          }
-          else if (endPoint == NULL)
-          {
+          } else if (endPoint == NULL) {
             return;
-          }
-          else if (startPoint->next == endPoint)
-          {
+          } else if (startPoint->next == endPoint) {
             return;
           }
 
           ListNode *temp = startPoint;
-          ListNode *temp_next;
-          ListNode *end_next = endPoint->next;
+          ListNode *temp_next = temp->next;
           ListNode *start_prev = startPoint->prev;
+          temp->next = endPoint->next;
+          temp->prev = temp_next; 
+          temp = temp_next; 
 
           while (temp != endPoint) {
             temp_next = temp->next; 
@@ -253,21 +251,17 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
             temp = temp_next;
           }
 
-          ListNode *new_end = startPoint;
-
-          startPoint->next = endPoint->next; 
           endPoint->next = endPoint->prev; 
           endPoint->prev = start_prev; 
-
-          new_end = startPoint; 
-          startPoint = endPoint;
-          endPoint = new_end;
           
-          //checking if our new start and end are actually new start and end
-          if (start_prev != NULL) {
-            start_prev->next = startPoint; 
-          } else if (end_next != NULL) {
-            end_next->prev = endPoint;
+          if (head_ == startPoint) {
+            head_ = endPoint; 
+          } else if (tail_ == endPoint) {
+            tail_ = startPoint; 
+          } else if (head_ != startPoint) {
+            start_prev->next = temp;
+          } else if (tail_ != endPoint) {
+            startPoint->next->prev = startPoint;
           }
         }
 
@@ -281,29 +275,23 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
         void List<T>::reverseNth(int n)
         {
           int i = 1; 
-          ListNode * curr = head_;
           ListNode * start = head_;
+          ListNode * end = head_;
 
           for (int x = 1; x <= floor(length_ / n); x++) {
-            while (curr != NULL && i < n) {
-              curr = curr->next;
+            while (end != NULL && i < n) {
+              end = end->next;
               i++;
             }
             i = 1;
 
-            if (curr == head_)
-              reverse(head_, start);
-            else if (start == tail_)
-              reverse(curr, tail_);
-            
-            reverse(curr, start);
-
-            curr = start->next;
-            start = curr;
+            reverse(start, end);
+            end = end->next;
+            start = end;
           }
           
-          if (curr != NULL) {
-            reverse(curr, tail_);
+          if (end != NULL) {
+            reverse(end, tail_);
           }
         }
         
