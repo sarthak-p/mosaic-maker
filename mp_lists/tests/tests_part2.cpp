@@ -166,7 +166,7 @@ TEST_CASE("List::reversenth", "[weight=2][part=2][valgrind]")
     list.insertBack(5);
     list.insertBack(6);
 
-    list.reverseNth(4);
+    list.reverseNth(3);
 
     stringstream s;
     list.print(s);

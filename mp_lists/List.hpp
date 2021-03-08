@@ -230,16 +230,17 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
         {
 
           if (startPoint == NULL) {
-            return;
+            return; 
           } else if (endPoint == NULL) {
-            return;
-          } else if (startPoint->next == endPoint) {
-            return;
+            return; 
+          } else if (startPoint->next == NULL) {
+            return; 
           }
 
           ListNode *temp = startPoint;
           ListNode *temp_next = temp->next;
-          ListNode *start_prev = startPoint->prev;
+          ListNode * start_prev = startPoint->prev; 
+
           temp->next = endPoint->next;
           temp->prev = temp_next; 
           temp = temp_next; 
@@ -254,16 +255,21 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
           endPoint->next = endPoint->prev; 
           endPoint->prev = start_prev; 
           
-          if (head_ == startPoint) {
-            head_ = endPoint; 
-          } else if (tail_ == endPoint) {
-            tail_ = startPoint; 
-          } else if (head_ != startPoint) {
+          if (head_ != startPoint) {
             start_prev->next = temp;
-          } else if (tail_ != endPoint) {
+          } 
+          if (tail_ != endPoint) {
             startPoint->next->prev = startPoint;
           }
+          if (head_ == startPoint) {
+            head_ = endPoint;
+          } 
+          if (tail_ == endPoint) {
+            tail_ = startPoint;
+          }
         }
+
+        
 
         /**
  * Reverses blocks of size n in the current List. You should use your
@@ -274,29 +280,36 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
         template <typename T>
         void List<T>::reverseNth(int n)
         {
+          if (head_ == NULL) {
+            return; 
+          } else if (n <= 1) {
+            return; 
+          }
           int i = 1; 
+          ListNode * curr = head_; 
           ListNode * start = head_;
-          ListNode * end = head_;
 
-          for (int x = 1; x <= floor(length_ / n); x++) {
-            while (end != NULL && i < n) {
-              end = end->next;
-              i++;
+          for (int x = 0; x < floor(length_ / n); x++) {
+            while (i < n)
+            {
+              if (curr != NULL)
+              {
+                curr = curr->next;
+                i++;
+              }
             }
             i = 1;
-
-            reverse(start, end);
-            end = end->next;
-            start = end;
+            reverse(start, curr);
+            start = start->next;
+            curr = start;
           }
-          
-          if (end != NULL) {
-            reverse(end, tail_);
+
+          if (curr != NULL) {
+            reverse(curr, tail_);
           }
         }
-        
 
-        /**
+/**
  * Merges the given sorted list into the current sorted list.
  *
  * @param otherList List to be merged into the current list.
