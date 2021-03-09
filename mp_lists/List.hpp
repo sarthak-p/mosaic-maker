@@ -51,7 +51,7 @@ void List<T>::_destroy() {
     ListNode *next = head_->next;
     delete head_; 
     head_ = next;
-    }
+  }
     head_ = NULL;
     tail_ = NULL; 
   }
@@ -349,14 +349,19 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
         template <typename T>
         typename List<T>::ListNode *List<T>::merge(ListNode * first, ListNode * second)
         {
-          ListNode * temp = NULL; 
+
+          ListNode * temp = NULL;
+          ListNode * out = NULL; 
+          //example
+          //2 -> 4 -> 6 -> 8 -> NULL
+          //1 -> 3 -> 5 -> 7 -> NULL
 
           //if one list doesn't exist, return the other. If either don't exist, return.  
           if (first == NULL) {
             return second; 
           } else if (second == NULL) {
             return first; 
-          }
+          } 
 
           //determine the first node in our end list 
           if (second->data < first->data) {
@@ -367,31 +372,33 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
             first = first->next;
           }
 
-          ListNode * out = temp; 
+          out = temp; 
 
           //compare both nodes simulataneously and create a new list 
           while(first != NULL && second != NULL) {
-            if (first->data < second->data) {
-              temp->next = first;
-              temp = first; 
-              first = first->next; 
-            } else {
-              temp->next = second;
-              temp = second;
-              second = second->next;
+            if (second->data < first->data) {
+              second->prev = out;
+              out->next = second; 
+              second = second->next; 
+            } else { 
+              first->prev = out;
+              out->next = first;
+              first = first->next;
             }
+            out = out->next; 
           }
 
           //if one list reaches NULL, then we connect our temp var to the other 
           //list and our end list is complete 
+          if (first == NULL) {
+            second->prev = out; 
+            out->next = second; 
+          } 
           if (second == NULL) {
-            temp ->next = first; 
-            temp = first; 
-          } else if (first == NULL) {
-            temp ->next = second; 
-            temp = second; 
+            first->prev = out; 
+            out->next = first; 
           }
-          return out; 
+          return temp; 
         }
 
         /**
@@ -414,13 +421,13 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
           }
 
           //split the list into two smaller parts
-          ListNode * head_second = split(start, (chainLength / 2));
+          ListNode * head_second = split(start, (int)(chainLength / 2));
 
           //recursively sort the first half 
-          start = mergesort(start, (chainLength / 2)); 
+          start = mergesort(start, (int)(chainLength / 2)); 
 
           //recursively sort the second half 
-          head_second = mergesort(head_second, ((chainLength % 2) + (chainLength / 2)));
+          head_second = mergesort(head_second, (chainLength - (int)(chainLength / 2)));
 
           //merge the two lists 
           return merge(start, head_second);
