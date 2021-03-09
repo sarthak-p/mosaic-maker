@@ -237,6 +237,7 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
             return; 
           }
 
+          //create a temp node and two other nodes that point to the previous and next node of startPoint
           ListNode *temp = startPoint;
           ListNode * start_prev = startPoint->prev;
           ListNode * temp_next = temp->next;  
@@ -245,6 +246,7 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
           temp->prev = temp_next; 
           temp = temp_next; 
 
+          //iterate through each node and switch their next and prev links 
           while (temp != endPoint) {
             temp_next = temp->next; 
             temp->next = temp->prev;
@@ -252,9 +254,11 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
             temp = temp_next;
           }
 
+          //switch the 
           endPoint->next = endPoint->prev; 
           endPoint->prev = start_prev; 
           
+          //switching next and prev members of original list to point to new reversed nodes
           if (head_ != startPoint) {
             start_prev->next = temp;
           } 
@@ -351,7 +355,7 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
         {
 
           ListNode * temp = NULL;
-          ListNode * out; 
+          ListNode * out = NULL; 
 
           //example
           //2 -> 4 -> 6 -> 8 -> NULL
