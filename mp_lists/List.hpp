@@ -351,10 +351,12 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
         {
 
           ListNode * temp = NULL;
-          ListNode * out = NULL; 
+          ListNode * out; 
+
           //example
           //2 -> 4 -> 6 -> 8 -> NULL
           //1 -> 3 -> 5 -> 7 -> NULL
+          //result: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> NULL
 
           //if one list doesn't exist, return the other. If either don't exist, return.  
           if (first == NULL) {
@@ -367,34 +369,33 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
           if (second->data < first->data) {
             temp = second;
             second = second->next;
-          } else if (first->data < second->data) {
+          } else {
             temp = first;
             first = first->next;
           }
-
+          
           out = temp; 
 
           //compare both nodes simulataneously and create a new list 
           while(first != NULL && second != NULL) {
-            if (second->data < first->data) {
-              second->prev = out;
-              out->next = second; 
-              second = second->next; 
-            } else { 
+            if (first->data < second->data) {
               first->prev = out;
-              out->next = first;
-              first = first->next;
+              out->next = first; 
+              first = first->next; 
+            } else { 
+              second->prev = out;
+              out->next = second;
+              second = second->next;
             }
             out = out->next; 
           }
 
-          //if one list reaches NULL, then we connect our temp var to the other 
+          //if one list reaches NULL, then we connect our out var to the other 
           //list and our end list is complete 
           if (first == NULL) {
             second->prev = out; 
             out->next = second; 
-          } 
-          if (second == NULL) {
+          } else if (second == NULL) {
             first->prev = out; 
             out->next = first; 
           }
