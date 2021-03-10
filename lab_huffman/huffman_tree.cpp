@@ -74,32 +74,29 @@ HuffmanTree::TreeNode*
 HuffmanTree::removeSmallest(queue<TreeNode*>& singleQueue,
                             queue<TreeNode*>& mergeQueue)
 {
+
     TreeNode * smallest; 
 
-    if (singleQueue.empty() == 0 && mergeQueue.empty()) {
+    if (singleQueue.empty() && mergeQueue.empty()) {
         return NULL; 
-    }
-
-    if (mergeQueue.empty()) {
+    } else if (mergeQueue.empty()) {
         smallest = singleQueue.front(); 
         singleQueue.pop(); 
         return smallest; 
-    }
-
-    if (singleQueue.empty()) {
+    } else if (singleQueue.empty()) {
         smallest = mergeQueue.front(); 
         mergeQueue.pop(); 
         return smallest; 
-    }
-
-    if (mergeQueue.front()->freq.getFrequency() < singleQueue.front()->freq.getFrequency()) {
+    } else if (mergeQueue.front()->freq.getFrequency() < singleQueue.front()->freq.getFrequency()) {
         smallest = mergeQueue.front(); 
         mergeQueue.pop(); 
         return smallest; 
     } else {
+        //In the event that there is a tie, it should 
+        //remove the front of the singleQueue.
         smallest = singleQueue.front();
         singleQueue.pop(); 
-        return smallest; 
+        return smallest;
     }
 }
 
@@ -137,7 +134,7 @@ void HuffmanTree::buildTree(const vector<Frequency>& frequencies)
     //Assign it to the root and you're done!
     if (singleQueue.empty()) {
         root_ = mergeQueue.front();
-    } else {
+    } else if (mergeQueue.empty()) {
         root_ = singleQueue.front(); 
     }
 }
@@ -153,12 +150,13 @@ void HuffmanTree::decode(stringstream& ss, BinaryFileReader& bfile)
 {
     TreeNode* current = root_;
     while (bfile.hasBits()) {
-        //we go left if the bit was a 0(or false) 
-        if (!bfile.getNextBit()) {
+
+        //we go left if the bit was a 0
+        if (bfile.getNextBit() == 0) {
             current = current->left;
         }
         else
-        //we go right if the bit was a 1 (or true)
+        //we go right if the bit was a 1
         {
             current = current->right;
         }
@@ -188,8 +186,8 @@ void HuffmanTree::writeTree(TreeNode* current, BinaryFileWriter& bfile)
         //If we are an internal node, writ the bit "0", and then encode the 
         //left and right subtree, recursively
         bfile.writeBit(0);
-        writeTree(current->right, bfile);
         writeTree(current->left, bfile);
+        writeTree(current->right, bfile);
     }
 }
 
