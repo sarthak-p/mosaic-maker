@@ -125,9 +125,8 @@ class HuffmanTree
     class TreeNode
     {
       public:
-        Frequency
-            freq;        /**< Data for this TreeNode: contains a
-                                  character and a frquency count. */
+        Frequency freq;  /**< Data for this TreeNode: contains a
+                                  character and a frequency count. */
         TreeNode* left;  /**< Left child of this TreeNode. */
         TreeNode* right; /**< Right child of this TreeNode. */
 

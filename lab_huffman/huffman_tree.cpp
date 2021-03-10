@@ -74,28 +74,30 @@ HuffmanTree::TreeNode*
 HuffmanTree::removeSmallest(queue<TreeNode*>& singleQueue,
                             queue<TreeNode*>& mergeQueue)
 {
+    TreeNode * smallest; 
+
     if (singleQueue.empty() == 0 && mergeQueue.empty()) {
         return NULL; 
     }
 
     if (mergeQueue.empty()) {
-        TreeNode * smallest = singleQueue.front(); 
+        smallest = singleQueue.front(); 
         singleQueue.pop(); 
         return smallest; 
     }
 
     if (singleQueue.empty()) {
-        TreeNode * smallest = mergeQueue.front(); 
+        smallest = mergeQueue.front(); 
         mergeQueue.pop(); 
         return smallest; 
     }
 
     if (mergeQueue.front()->freq.getFrequency() < singleQueue.front()->freq.getFrequency()) {
-        TreeNode * smallest = mergeQueue.front(); 
+        smallest = mergeQueue.front(); 
         mergeQueue.pop(); 
         return smallest; 
     } else {
-        TreeNode * smallest = singleQueue.front();
+        smallest = singleQueue.front();
         singleQueue.pop(); 
         return smallest; 
     }
@@ -135,7 +137,7 @@ void HuffmanTree::buildTree(const vector<Frequency>& frequencies)
     //Assign it to the root and you're done!
     if (singleQueue.empty()) {
         root_ = mergeQueue.front();
-    } else if (mergeQueue.empty()) {
+    } else {
         root_ = singleQueue.front(); 
     }
 }
@@ -206,6 +208,9 @@ HuffmanTree::TreeNode* HuffmanTree::readTree(BinaryFileReader& bfile)
     if (bfile.getNextBit()) {
         node = new TreeNode(Frequency(bfile.getNextByte(), 0));
     } else {
+        //If we read a 0 bit, create a new internal node (with frequency 0, since 
+        //we are ignoring them now, and set its left child and right children to be 
+        //the subtrees built recursively.
         node = new TreeNode(0);
         node ->left = readTree(bfile);
         node ->right = readTree(bfile);
