@@ -19,7 +19,6 @@ bool KDTree<Dim>::smallerDimVal(const Point<Dim>& first,
   } else if (first[curDim] > second[curDim]) {
     return false; 
   }
-
   if (first[curDim] == second[curDim]) {
     return first < second; 
   }
@@ -44,7 +43,6 @@ bool KDTree<Dim>::shouldReplace(const Point<Dim>& target,
   } else if (current_to_target < potential_to_target) {
     return false; 
   }
-
   if (potential_to_target == current_to_target) {
     return potential < currentBest;
   }
@@ -58,7 +56,7 @@ KDTree<Dim>::KDTree(const vector<Point<Dim>> & newPoints)
     return; 
   } 
   //pushing all points in newPoints into our helper vector 
-  for (unsigned long i = 0; i < newPoints.size(); i++) { 
+  for (size_t i = 0; i < newPoints.size(); i++) { 
     vect.push_back(newPoints[i]);
   }
   //calling the buildtree function. Note: we don't need to pass in a vector
@@ -170,9 +168,11 @@ KDTree<Dim>::KDTree(const KDTree<Dim> &other)
 template <int Dim>
 const KDTree<Dim> &KDTree<Dim>::operator=(const KDTree<Dim> &rhs)
   {
-    clear(root);
-    copy(root, rhs->root);
-    return *this;
+    if (this != rhs) {
+      delete *this; 
+      this = new KDTree(rhs);
+    }
+    return *this; 
   }
 
 template <int Dim>
@@ -181,15 +181,15 @@ KDTree<Dim>::~KDTree()
   clear(root); 
 }
 
-template<int Dim>
-void KDTree<Dim>::copy(KDTreeNode *& other, KDTreeNode *& node) {
-  if (other == NULL) {
-    return; 
-  }
-  node = new KDTreeNode(other->point);
-  copy(node->left, other->left);
-  copy(node->right, other->right);
-}
+// template<int Dim>
+// void KDTree<Dim>::copy(KDTreeNode *& other, KDTreeNode *& node) {
+//   if (other == NULL) {
+//     return; 
+//   }
+//   node = new KDTreeNode(other->point);
+//   copy(node->left, other->left);
+//   copy(node->right, other->right);
+// }
 
 template <int Dim>
 void KDTree<Dim>::clear(KDTreeNode * r) {
