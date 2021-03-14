@@ -22,25 +22,27 @@ bool KDTree<Dim>::smallerDimVal(const Point<Dim>& first,
   if (first[curDim] == second[curDim]) {
     return first < second; 
   }
-  return false; 
-  }
+  return false;
+}
+  
+  template <int Dim>
+  bool KDTree<Dim>::shouldReplace(const Point<Dim> &target,
+                                  const Point<Dim> &currentBest,
+                                  const Point<Dim> &potential) const
+  {
+    double current_to_target = 0;
+    double potential_to_target = 0;
 
-template <int Dim>
-bool KDTree<Dim>::shouldReplace(const Point<Dim>& target,
-                                const Point<Dim>& currentBest,
-                                const Point<Dim>& potential) const
-{
-  double current_to_target = 0; 
-  double potential_to_target = 0; 
+    for (int i = 0; i < Dim; i++)
+    {
+      current_to_target += (currentBest[i] - target[i]) * (currentBest[i] - target[i]);
+      potential_to_target += (potential[i] - target[i]) * (potential[i] - target[i]);
+    }
 
-  for (int i = 0; i < Dim; i++) {
-    current_to_target += (currentBest[i] - target[i]) * (currentBest[i] - target[i]);
-    potential_to_target += (potential[i] - target[i]) * (potential[i] - target[i]);
-  }
-
-  if (potential_to_target < current_to_target) {
-    return true; 
-  } else if (current_to_target < potential_to_target) {
+    if (potential_to_target < current_to_target)
+    {
+      return true;
+    } else if (current_to_target < potential_to_target) {
     return false; 
   }
   if (potential_to_target == current_to_target) {
@@ -52,11 +54,8 @@ bool KDTree<Dim>::shouldReplace(const Point<Dim>& target,
 template <int Dim>
 KDTree<Dim>::KDTree(const vector<Point<Dim>> & newPoints)
 {
-  if (newPoints.size() == 0) {
-    return; 
-  } 
   //pushing all points in newPoints into our helper vector 
-  for (size_t i = 0; i < newPoints.size(); i++) { 
+  for (unsigned long i = 0; i < newPoints.size(); i++) { 
     vect.push_back(newPoints[i]);
   }
   //calling the buildtree function. Note: we don't need to pass in a vector
@@ -71,7 +70,7 @@ typename KDTree<Dim>::KDTreeNode * KDTree<Dim>::buildTree(int left, int right, i
   }
 
   //median point 
-  int m = (right + left) / 2;
+  int m = (left + right) / 2;
   Point <Dim> out = select(left, right, m, d);
 
   //Create root based on the median
@@ -126,8 +125,8 @@ int KDTree<Dim>::partition(int left, int right, int index, int d)
   //pivot is the ele at the index given 
   Point <Dim> pivot = vect[index];
 
-  //temp var swap used for swapping 
-  Point<Dim> swap;
+  //temp var swap used for swapping
+  Point<Dim> swap; 
 
   //2. move our ele to the end of the array i.e to the right
   //swap pivot and right without using built-in swap function
@@ -207,7 +206,7 @@ Point<Dim> KDTree<Dim>::findNearestNeighbor(const Point<Dim> &query) const
 
   //using helper function near that takes in the current (root), query, and dimension; 
   Point<Dim> best = root->point; 
-  return nearest(root, query, 0, best);
+  return nearest(root, query, 0, root->point);
 }
 
 template <int Dim>
@@ -219,8 +218,13 @@ Point<Dim> KDTree<Dim>::nearest(KDTreeNode * curRoot, const Point<Dim> q, int d,
     return curRoot->point; 
   }
 
+  //if query[dim] is on the left side of curRoot[dim] -- can use smallerDimVal() to check
+  // if (smallerDimVal(q, curRoot->point, d)) {
+  //   if (curRoot->left == NULL) {
+  //     //best = nearest(curRoot->left, q, best, (d + 1) % Dim);
+  //   }
+  // }
   return best; 
-
 }
 
 
