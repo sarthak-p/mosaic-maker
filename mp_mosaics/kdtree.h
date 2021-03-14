@@ -171,9 +171,9 @@ class KDTree
     /**
      * Destructor for KDTree.
      */
-    ~KDTree();
+    ~KDTree();    
 
-    /**
+      /**
      * Finds the closest point to the parameter point in the KDTree.
      *
      * This function takes a reference to a template parameter Point and
@@ -230,36 +230,51 @@ class KDTree
      *  tree.
      * @return The closest point to a in the KDTree.
      */
-    Point<Dim> findNearestNeighbor(const Point<Dim>& query) const;
+      Point<Dim> findNearestNeighbor(const Point<Dim> &query) const;
 
-    // functions used for grading:
+      // functions used for grading:
 
-    /**
+      /**
      * You do not need to modify this function. Its implementation is in
      *  kdtree_extras.cpp.
      * Prints the KDTree to the terminal in a pretty way.
      */
-    void printTree(ostream& out = cout,
-                   colored_out::enable_t enable_bold = colored_out::COUT,
-                   int modWidth = -1) const;
+      void printTree(ostream &out = cout,
+                     colored_out::enable_t enable_bold = colored_out::COUT,
+                     int modWidth = -1) const;
 
-  private:
+    private:
+      /** Internal representation, root and size **/
+      KDTreeNode *root;
+      size_t size;
 
-    /** Internal representation, root and size **/
-    KDTreeNode *root;
-    size_t size;
+      //helper vector of points 
+      vector<Point<Dim> > vect;
 
-    /** Helper function for grading */
-    int getPrintData(KDTreeNode * subroot) const;
+      /** Helper function for grading */
+      int getPrintData(KDTreeNode *subroot) const;
 
-    /** Helper function for grading */
-    void printTree(KDTreeNode * subroot, std::vector<std::string>& output,
-                   int left, int top, int width, int currd) const;
+      /** Helper function for grading */
+      void printTree(KDTreeNode * subroot, std::vector<std::string> & output,
+                     int left, int top, int width, int currd) const;
 
-    /**
+      /**
      * @todo Add your helper functions here.
      */
-};
+    //buildTree helper function for constructor 
+    KDTreeNode * buildTree(int left, int right, int d);
+
+    //select helper function for quickselect 
+    Point<Dim> select(int left, int right, int n, int d);
+
+    //partition helper function for quickselect 
+    int partition(int left, int right, int index, int d);
+    
+    //nearesr helper function for findNearestNeighbor
+    Point<Dim> nearest(KDTreeNode *current, const Point<Dim> q, int d, Point<Dim> best) const;
+
+    void clear(KDTreeNode * sub);
+  };
 
 #include "kdtree.hpp"
 #include "kdtree_extras.hpp"
