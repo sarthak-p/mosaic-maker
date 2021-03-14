@@ -274,6 +274,7 @@ class KDTree
     Point<Dim> nearest(KDTreeNode *current, const Point<Dim> q, int d, Point<Dim> best) const;
 
     void clear(KDTreeNode * sub);
+    void copy(KDTreeNode *&other, KDTreeNode *&node);
   };
 
 #include "kdtree.hpp"

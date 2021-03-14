@@ -170,6 +170,8 @@ KDTree<Dim>::KDTree(const KDTree<Dim> &other)
 template <int Dim>
 const KDTree<Dim> &KDTree<Dim>::operator=(const KDTree<Dim> &rhs)
   {
+    clear(root);
+    copy(root, rhs->root);
     return *this;
   }
 
@@ -179,18 +181,24 @@ KDTree<Dim>::~KDTree()
   clear(root); 
 }
 
+template<int Dim>
+void KDTree<Dim>::copy(KDTreeNode *& other, KDTreeNode *& node) {
+  if (other == NULL) {
+    return; 
+  }
+  node = new KDTreeNode(other->point);
+  copy(node->left, other->left);
+  copy(node->right, other->right);
+}
+
 template <int Dim>
 void KDTree<Dim>::clear(KDTreeNode * r) {
   if (r == NULL) {
     return;
   } 
-  if (r->left != NULL) {
-    clear(r->left);
-  }
-  if (r->right != NULL) {
-    clear(r->right);
-  }
-  r = NULL; 
+  clear(r->left);
+  clear(r->right);
+  delete r; 
 }
 
 template <int Dim>
