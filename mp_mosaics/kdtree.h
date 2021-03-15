@@ -271,11 +271,14 @@ class KDTree
     int partition(int left, int right, int index, int d);
     
     //nearesr helper function for findNearestNeighbor
-    Point<Dim> nearest(KDTreeNode *current, const Point<Dim> q, int d, Point<Dim> best) const;
+    Point<Dim> nearest(KDTreeNode *curRoot, const Point<Dim> q, int d, Point<Dim> bestMatch) const;
 
     void clear(KDTreeNode * sub);
     void copy(KDTreeNode *&other, KDTreeNode *&node);
-  };
+
+    //splitDistance helper function for getNearestNeighbor 
+    double get_radius(const Point<Dim> &best, const Point<Dim> &curr) const;
+};
 
 #include "kdtree.hpp"
 #include "kdtree_extras.hpp"
