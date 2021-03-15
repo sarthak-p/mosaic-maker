@@ -26,11 +26,10 @@ bool KDTree<Dim>::smallerDimVal(const Point<Dim>& first,
   return false;
 }
   
-  template <int Dim>
-  bool KDTree<Dim>::shouldReplace(const Point<Dim> &target,
+template <int Dim>
+bool KDTree<Dim>::shouldReplace(const Point<Dim> &target,
                                   const Point<Dim> &currentBest,
-                                  const Point<Dim> &potential) const
-  {
+                                  const Point<Dim> &potential) const {
     double current_to_target = 0;
     double potential_to_target = 0;
 
@@ -178,16 +177,6 @@ const KDTree<Dim> &KDTree<Dim>::operator=(const KDTree<Dim> &rhs) {
 template <int Dim>
 KDTree<Dim>::~KDTree() {
   clear(root); 
-}
-
-template<int Dim>
-void KDTree<Dim>::copy(KDTreeNode *& other, KDTreeNode *& node) {
-  if (other == NULL) {
-    return; 
-  }
-  node = new KDTreeNode(other->point);
-  copy(node->left, other->left);
-  copy(node->right, other->right);
 }
 
 template <int Dim>
