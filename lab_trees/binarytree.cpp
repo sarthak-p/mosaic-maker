@@ -75,10 +75,28 @@ void BinaryTree<T>::printLeftToRight(const Node* subRoot) const
  * Flips the tree over a vertical axis, modifying the tree itself
  *  (not creating a flipped copy).
  */
-    template <typename T>
-void BinaryTree<T>::mirror()
+
+template <typename T>
+void BinaryTree<T>::mirror() {
+    mirror(root);
+}
+
+template <typename T>
+void BinaryTree<T>::mirror(Node *root_)
 {
-    //your code here
+    //base case - null node 
+    if (!root_) {
+        return;
+    }
+
+    //recursive calls 
+    mirror(root_->left);
+    mirror(root_->right);
+
+    //switching right and left nodes 
+    Node * node = root_->left; 
+    root_->left = root_->right; 
+    root_->right = node; 
 }
 
 
@@ -91,8 +109,8 @@ void BinaryTree<T>::mirror()
 template <typename T>
 bool BinaryTree<T>::isOrderedIterative() const
 {
-    // your code here
-    return false;
+    
+
 }
 
 /**

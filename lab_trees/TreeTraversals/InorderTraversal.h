@@ -25,8 +25,11 @@ class InorderTraversal : public TreeTraversal<T> {
     InorderTraversal(typename BinaryTree<T>::Node* root)
 	    : root(root)
     {
-      stack.push(root);	
-      // your code here
+      typename BinaryTree<T>::Node *root_ = root; 
+      while (root_) {
+        stack.push(root_);
+        root_ = root_->left; 
+      }
     }
 
     /**
@@ -60,8 +63,11 @@ class InorderTraversal : public TreeTraversal<T> {
      *        should be added to the traversal
      */	
     void add(typename BinaryTree<T>::Node *& treeNode) {
-      // your code here
-      return;	
+      typename BinaryTree<T>::Node * curr = treeNode->right; 
+      while(curr) {
+        stack.push(curr);
+        curr = curr->left; 
+      }	
     }
 
     /**
@@ -97,4 +103,5 @@ class InorderTraversal : public TreeTraversal<T> {
   private:
     std::stack<typename BinaryTree<T>::Node*> stack;
     typename BinaryTree<T>::Node* root;
+    
 };

@@ -18,10 +18,7 @@ Point<3> convertToXYZ(LUVAPixel pixel) {
 MosaicCanvas* mapTiles(SourceImage const& theSource,
                        vector<TileImage>& theTiles)
 {
-    /**
-     * @todo Implement this function!
-     */
-
+    
     return NULL;
 }
 
