@@ -109,8 +109,16 @@ void BinaryTree<T>::mirror(Node *root_)
 template <typename T>
 bool BinaryTree<T>::isOrderedIterative() const
 {
-    
-
+    InorderTraversal<T> iot(root);
+    T first; 
+    for (typename TreeTraversal<T>::Iterator start = iot.begin(); start != iot.end(); ++start) {
+        T second = (*start)->elem;
+        if (second < first) {
+            return false; 
+        }
+        first = second;
+    }
+    return true; 
 }
 
 /**
