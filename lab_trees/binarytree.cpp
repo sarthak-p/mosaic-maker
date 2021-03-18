@@ -109,10 +109,12 @@ void BinaryTree<T>::mirror(Node *root_)
 template <typename T>
 bool BinaryTree<T>::isOrderedIterative() const
 {
+    //since we need nondecreasing output, we can compare elems as we traverse 
     InorderTraversal<T> iot(root);
     T first; 
-    for (typename TreeTraversal<T>::Iterator start = iot.begin(); start != iot.end(); ++start) {
-        T second = (*start)->elem;
+
+    for (typename TreeTraversal<T>::Iterator curr = iot.begin(); curr != iot.end(); ++curr) {
+        T second = (*curr)->elem;
         if (second < first) {
             return false; 
         }
@@ -128,9 +130,21 @@ bool BinaryTree<T>::isOrderedIterative() const
  *  criterion for a binary tree to be a binary search tree.
  */
 template <typename T>
-bool BinaryTree<T>::isOrderedRecursive() const
+bool BinaryTree<T>::OrderedRecursive(Node * root_, Node * left_, Node * right_) const
 {
-    // your code here
-    return false;
+    //base case - null root 
+    if (!root_) {
+        return true; 
+    } else if ((right_ && (root_->elem > right_->elem))  || (left_ && (root_->elem < left_->elem))) {
+        return false; 
+    } else {
+        return (OrderedRecursive(root_->left, left_, root_) && 
+        OrderedRecursive(root_->right, root_, right_));
+    }
 }
 
+template <typename T>
+bool BinaryTree<T>::isOrderedRecursive() const {
+    bool check = OrderedRecursive(root, NULL, NULL); 
+    return check; 
+}

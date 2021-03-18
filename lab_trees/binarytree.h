@@ -210,6 +210,9 @@ class BinaryTree
 
         //private helper function for mirror()
         void mirror(Node *root_);
+
+        //private helper function for isOrderedRecursive()
+        bool OrderedRecursive(Node *subroot, Node * left_, Node * right_) const;
 };
 
 #include "binarytree_given.cpp"
