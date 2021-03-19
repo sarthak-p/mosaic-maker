@@ -141,8 +141,7 @@ bool BinaryTree<T>::OrderedRecursive(Node * root_, Node * left_, Node * right_) 
         return false; 
     } else {
     //recursive calls 
-        return (OrderedRecursive(root_->left, left_, root_) && 
-        OrderedRecursive(root_->right, root_, right_));
+        return (OrderedRecursive(root_->left, left_, root_) && OrderedRecursive(root_->right, root_, right_));
     }
 }
 
