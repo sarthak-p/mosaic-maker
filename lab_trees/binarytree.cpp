@@ -135,9 +135,12 @@ bool BinaryTree<T>::OrderedRecursive(Node * root_, Node * left_, Node * right_) 
     //base case - null root 
     if (!root_) {
         return true; 
+    //all elems on the right side MUST be greater than root and all elems on the left side MUST be less than root 
+    //in order to be a BST
     } else if ((right_ && (root_->elem > right_->elem))  || (left_ && (root_->elem < left_->elem))) {
         return false; 
     } else {
+    //recursive calls 
         return (OrderedRecursive(root_->left, left_, root_) && 
         OrderedRecursive(root_->right, root_, right_));
     }
