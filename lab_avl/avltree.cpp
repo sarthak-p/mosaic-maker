@@ -80,20 +80,27 @@ void AVLTree<K, V>::rebalance(Node*& subtree)
         return;
     }
 
+    //height of tree
     int bal = heightOrNeg1(subtree->right) - heightOrNeg1(subtree->left); 
 
+    //imbalance of 2
     if (bal == 2) {
         int right_ = heightOrNeg1(subtree->right->right) - heightOrNeg1(subtree->right->left);
+        //left-left imbalance
         if (right_ == 1) { 
             rotateLeft(subtree);
+        //left-right imbalance 
         } else {  
             rotateRightLeft(subtree);
         }
     }
+    //imbalance of -2 
     if (bal == -2) {
         int left_ = heightOrNeg1(subtree->left->right) - heightOrNeg1(subtree->left->left); 
+        //right-left imbalance
         if (left_ == 1) {
             rotateLeftRight(subtree);
+        //right-right imbalance
         } else {
             rotateRight(subtree); 
         }
@@ -130,7 +137,7 @@ void AVLTree<K, V>::remove(const K& key)
 template <class K, class V>
 void AVLTree<K, V>::remove(Node*& subtree, const K& key)
 {
-    if (subtree == NULL) {
+    if (!subtree) {
         return; 
     }
     if (key > subtree->key) {

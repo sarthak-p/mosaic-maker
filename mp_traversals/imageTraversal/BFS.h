@@ -15,6 +15,7 @@
 #include "ImageTraversal.h"
 
 using namespace cs225;
+using namespace std; 
 
 /**
  * A breadth-first ImageTraversal.
@@ -35,4 +36,8 @@ public:
 private:
   /** @todo [Part 1] */
   /** add private members here*/
+  PNG png_;
+  Point startPoint_;
+  double tolerance_;
+  queue<Point> queue_; 
 };
