@@ -160,7 +160,7 @@ void AVLTree<K, V>::remove(Node*& subtree, const K& key)
             if (!subtree->left) {
                 temp = subtree->left;
             } 
-            if (subtree->right) {
+            if (!subtree->right) {
                 temp = subtree->right;
             } 
             delete subtree;
