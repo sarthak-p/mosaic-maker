@@ -24,14 +24,15 @@
  */
 DFS::DFS(const PNG & png, const Point & start, double tolerance) { 
   png_ = png; 
-  startPoint_ = start; 
-  tolerance_ = tolerance; 
+  startPoint = start; 
+  tol = tolerance; 
 }
 
 /**
  * Returns an iterator for the traversal starting at the first point.
  */
 ImageTraversal::Iterator DFS::begin() {
+  //return ImageTraversal::Iterator(this, start_, tolerance_, image_);
   return ImageTraversal::Iterator();
 }
 

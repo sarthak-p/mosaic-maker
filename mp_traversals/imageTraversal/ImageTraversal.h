@@ -3,12 +3,14 @@
  */
 #pragma once
 
+#include <list>
 #include <iterator>
 #include "../cs225/HSLAPixel.h"
 #include "../cs225/PNG.h"
 #include "../Point.h"
 
 using namespace cs225;
+using namespace std; 
 
 /**
  * A base class for traversal algorithms on images.
@@ -36,11 +38,16 @@ public:
 
     /** @todo [Part 1] */
     /** add member functions if neccesary*/
+    Iterator(Point p, ImageTraversal * t);
 
   private:
     /** @todo [Part 1] */
     /** add private members here if neccesary*/
-
+    Point startPoint;
+    double tol;
+    Point curr;
+    PNG png_; 
+    ImageTraversal * traverse;
   };
 
   /**
@@ -77,5 +84,6 @@ public:
   virtual bool empty() const = 0;
 
 private:
-  static double calculateDelta(const HSLAPixel & p1, const HSLAPixel & p2);  
-};
+  static double calculateDelta(const HSLAPixel & p1, const HSLAPixel & p2);
+  bool **visited_;
+  };

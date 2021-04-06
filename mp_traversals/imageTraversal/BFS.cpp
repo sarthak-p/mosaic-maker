@@ -25,8 +25,8 @@ using namespace cs225;
 BFS::BFS(const PNG & png, const Point & start, double tolerance) {  
   /** @todo [Part 1] */
   png_ = png;
-  startPoint_ = start;
-  tolerance_ = tolerance;
+  startPoint = start;
+  tol = tolerance;
 }
 
 /**
