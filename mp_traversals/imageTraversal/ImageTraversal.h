@@ -38,16 +38,17 @@ public:
 
     /** @todo [Part 1] */
     /** add member functions if neccesary*/
-    Iterator(Point p, ImageTraversal * t);
+    Iterator(ImageTraversal * t, PNG & png, Point & start, double tolerance); 
 
-  private:
     /** @todo [Part 1] */
     /** add private members here if neccesary*/
-    Point startPoint;
-    double tol;
-    Point curr;
-    PNG png_; 
+
     ImageTraversal * traverse;
+    PNG pic;
+    Point startPoint;
+    Point curr;  
+    double tol_;
+    int ** traversed;
   };
 
   /**
@@ -85,5 +86,4 @@ public:
 
 private:
   static double calculateDelta(const HSLAPixel & p1, const HSLAPixel & p2);
-  bool **visited_;
-  };
+};

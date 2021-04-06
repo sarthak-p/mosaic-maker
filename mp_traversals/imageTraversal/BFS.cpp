@@ -23,25 +23,23 @@ using namespace cs225;
  * it will not be included in this BFS
  */
 BFS::BFS(const PNG & png, const Point & start, double tolerance) {  
-  /** @todo [Part 1] */
   png_ = png;
   startPoint = start;
-  tol = tolerance;
+  tol_ = tolerance;
 }
 
 /**
  * Returns an iterator for the traversal starting at the first point.
  */
 ImageTraversal::Iterator BFS::begin() {
-  /** @todo [Part 1] */
-  return ImageTraversal::Iterator();
+  ImageTraversal::Iterator it = ImageTraversal::Iterator(this, png_, startPoint, tol_);
+  return it;
 }
 
 /**
  * Returns an iterator for the traversal one past the end of the traversal.
  */
 ImageTraversal::Iterator BFS::end() {
-  /** @todo [Part 1] */
   return ImageTraversal::Iterator();
 }
 
@@ -49,7 +47,6 @@ ImageTraversal::Iterator BFS::end() {
  * Adds a Point for the traversal to visit at some point in the future.
  */
 void BFS::add(const Point & point) {
-  /** @todo [Part 1] */
   queue_.push(point); 
 }
 
@@ -57,7 +54,6 @@ void BFS::add(const Point & point) {
  * Removes and returns the current Point in the traversal.
  */
 Point BFS::pop() {
-  /** @todo [Part 1] */
   Point first = queue_.front(); 
   queue_.pop(); 
   return first; 
@@ -67,7 +63,6 @@ Point BFS::pop() {
  * Returns the current Point in the traversal.
  */
 Point BFS::peek() const {
-  /** @todo [Part 1] */
   Point curr = queue_.front(); 
   return curr; 
 }
@@ -76,7 +71,6 @@ Point BFS::peek() const {
  * Returns true if the traversal is empty.
  */
 bool BFS::empty() const {
-  /** @todo [Part 1] */
   if (queue_.size() == 0) {
     return true;
   } 

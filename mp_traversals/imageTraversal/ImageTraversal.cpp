@@ -40,14 +40,23 @@ ImageTraversal::Iterator::Iterator() {
 /**
  * Custom iterator constructor.
  */
-// ImageTraversal::Iterator::Iterator(ImageTraversal * t, PNG & png, Point & start, double tolerance)
-// {
-//   curr = p; 
-//   traverse = t;
-//   png_ = png; 
-//   tol_ = tolerance; 
-//   startPoint = start; 
-// }
+ImageTraversal::Iterator::Iterator(ImageTraversal *t, PNG & png, Point & start, double tolerance) {
+  traverse = t;
+  pic = png;
+  tol_ = tolerance;
+  startPoint = start;
+
+  for (unsigned x = 0; x < pic.width(); x++) {
+    traversed[x] = new int[pic.height()];
+  }
+
+  for (unsigned x = 0; x < pic.width(); x++) {
+    for (unsigned y = 0; y < pic.height(); y++) {
+      traversed[x][y] = 0;
+    }
+  }
+  traverse->add(startPoint);
+}
 
 /**
  * Iterator increment opreator.
@@ -55,55 +64,61 @@ ImageTraversal::Iterator::Iterator() {
  * Advances the traversal of the image.
  */
 ImageTraversal::Iterator & ImageTraversal::Iterator::operator++() {
-  /** @todo [Part 1] */
 
-  //neighbors of the point 
-  // Point right = Point(curr.x + 1, curr.y);
-  // Point down = Point(curr.x, curr.y + 1);
-  // Point left = Point(curr.x - 1, curr.y);
-  // Point up = Point(curr.x, curr.y - 1);
+  if (traverse->empty() == false) {
+    traverse->pop();
+    traversed[curr.x][curr.y] = 0;
+  }
 
-  // if (png_.width() > right.x) {
-  //   if (visited_[right] != true) {
-  //     double within0 = calculateDelta(png_.getPixel(right.x, right.y), png_.getPixel(startPoint.x, startPoint.y);
-  //     if (within0 <= tol_) {
-  //       traverse->add(right);
-  //     }
-  //   }
-  // }
+  curr = traverse->pop(); 
 
-  // if (png_.height() > down.x) {
-  //   if (visited_[down] != true) {
-  //     double within1 = calculateDelta(png_.getPixel(down.x, down.y), png_.getPixel(startPoint.x, startPoint.y);
-  //     if (within1 <= tol_) {
-  //       traverse->add(down);
-  //     }
-  //   }
-  // }
+    //neighbors of the point
+    Point right = Point(curr.x + 1, curr.y);
+    Point down = Point(curr.x, curr.y + 1);
+    Point left = Point(curr.x - 1, curr.y);
+    Point up = Point(curr.x, curr.y - 1);
 
-  // if (png_.width() > left.x) {
-  //   if (visited_[left] != true) {
-  //     double within2 = calculateDelta(png_.getPixel(left.x, left.y), png_.getPixel(startPoint.x, startPoint.y);
-  //     if (within2 <= tol_) {
-  //       traverse->add(left);
-  //     }
-  //   }
-  // }
+    if (pic.width() > right.x) {
+      if (traversed[curr.x + 1][curr.y] != 0) {
+        double within0 = calculateDelta(pic.getPixel(right.x, right.y), pic.getPixel(startPoint.x, startPoint.y));
+        if (within0 <= tol_) {
+          traverse->add(right);
+        }
+      }
+    }
 
-  // if (png_.height() > up.y) {
-  //   if (visited_[up] != true) {
-  //     double within3 = calculateDelta(png_.getPixel(up.x, up.y), png_.getPixel(startPoint.x, startPoint.y);
-  //     if (within3 <= tol_) {
-  //       traverse->add(up);
-  //     }
-  //   }
-  // }
-  // return *this;
+    if (pic.height() > down.y) {
+      if (traversed[curr.x][curr.y + 1] != 0) {
+        double within1 = calculateDelta(pic.getPixel(down.x, down.y), pic.getPixel(startPoint.x, startPoint.y));
+        if (within1 <= tol_) {
+          traverse->add(down);
+        }
+      }
+    }
 
-  return *this; 
+    if (0 > left.x) {
+      if (traversed[curr.x - 1][curr.y] != 0) {
+        double within2 = calculateDelta(pic.getPixel(left.x, left.y), pic.getPixel(startPoint.x, startPoint.y));
+        if (within2 <= tol_) {
+          traverse->add(left);
+        }
+      }
+    }
 
+    if (0 > up.y) {
+      if (traversed[curr.x][curr.y - 1] != 0) {
+        double within3 = calculateDelta(pic.getPixel(up.x, up.y), pic.getPixel(startPoint.x, startPoint.y));
+        if (within3 <= tol_) {
+          traverse->add(up);
+        }
+      }
+    }
 
-}
+    if (!traverse->empty()) {
+      curr = traverse->peek(); 
+    }
+    return *this;
+  }
 
 /**
  * Iterator accessor opreator.

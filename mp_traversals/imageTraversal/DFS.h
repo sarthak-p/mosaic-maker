@@ -38,6 +38,6 @@ private:
 	/** add private members here*/
   PNG png_;
   Point startPoint;
-  double tol;
+  double tol_;
   stack<Point> stack_;
 };

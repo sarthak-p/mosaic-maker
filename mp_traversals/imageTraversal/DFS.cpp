@@ -25,58 +25,65 @@
 DFS::DFS(const PNG & png, const Point & start, double tolerance) { 
   png_ = png; 
   startPoint = start; 
-  tol = tolerance; 
+  tol_ = tolerance;
 }
 
-/**
+    /**
  * Returns an iterator for the traversal starting at the first point.
  */
-ImageTraversal::Iterator DFS::begin() {
-  //return ImageTraversal::Iterator(this, start_, tolerance_, image_);
-  return ImageTraversal::Iterator();
-}
+    ImageTraversal::Iterator DFS::begin()
+    {
+      ImageTraversal::Iterator it = ImageTraversal::Iterator(this, png_, startPoint, tol_);
+      return it; 
+    }
 
-/**
+    /**
  * Returns an iterator for the traversal one past the end of the traversal.
  */
-ImageTraversal::Iterator DFS::end() {
-  return ImageTraversal::Iterator();
-}
+    ImageTraversal::Iterator DFS::end()
+    {
+      return ImageTraversal::Iterator();
+    }
 
-/**
+    /**
  * Adds a Point for the traversal to visit at some point in the future.
  */
-void DFS::add(const Point & point) {
-  /** @todo [Part 1] */
-  stack_.push(point); 
-}
+    void DFS::add(const Point &point)
+    {
+      /** @todo [Part 1] */
+      stack_.push(point);
+    }
 
-/**
+    /**
  * Removes and returns the current Point in the traversal.
  */
-Point DFS::pop() {
-  /** @todo [Part 1] */
-  Point first = stack_.top(); 
-  stack_.pop(); 
-  return first; 
-}
+    Point DFS::pop()
+    {
+      /** @todo [Part 1] */
+      Point first = stack_.top();
+      stack_.pop();
+      return first;
+    }
 
-/**
+    /**
  * Returns the current Point in the traversal.
  */
-Point DFS::peek() const {
-  /** @todo [Part 1] */
-  Point curr = stack_.top();
-  return curr; 
-  }
+    Point DFS::peek() const
+    {
+      /** @todo [Part 1] */
+      Point curr = stack_.top();
+      return curr;
+    }
 
-/**
+    /**
  * Returns true if the traversal is empty.
  */
-bool DFS::empty() const {
-  /** @todo [Part 1] */
-  if (stack_.size() == 0) {
-    return true; 
-  } 
-  return false; 
-}
+    bool DFS::empty() const
+    {
+      /** @todo [Part 1] */
+      if (stack_.size() == 0)
+      {
+        return true;
+      }
+      return false;
+    }
