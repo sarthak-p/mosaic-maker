@@ -45,7 +45,7 @@ ImageTraversal::Iterator::Iterator(ImageTraversal *t, PNG & png, Point & start, 
   pic = png;
   tol_ = tolerance;
   startPoint = start;
-
+  traversed = new int*[pic.width()];
   for (unsigned x = 0; x < pic.width(); x++) {
     traversed[x] = new int[pic.height()];
   }
