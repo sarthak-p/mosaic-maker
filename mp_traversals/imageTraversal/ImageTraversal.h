@@ -40,10 +40,8 @@ public:
     /** add member functions if neccesary*/
     Iterator(ImageTraversal * t, PNG & png, Point & start, double tolerance);
 
-
     /** @todo [Part 1] */
     /** add private members here if neccesary*/
-
     ImageTraversal * traverse;
     PNG png_;
     Point startPoint_;
