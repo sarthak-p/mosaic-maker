@@ -38,17 +38,18 @@ public:
 
     /** @todo [Part 1] */
     /** add member functions if neccesary*/
-    Iterator(ImageTraversal * t, PNG & png, Point & start, double tolerance); 
+    Iterator(ImageTraversal * t, PNG & png, Point & start, double tolerance);
+
 
     /** @todo [Part 1] */
     /** add private members here if neccesary*/
 
     ImageTraversal * traverse;
     PNG png_;
-    Point startPoint;
+    Point startPoint_;
     Point curr;  
     double tol_;
-    int ** traversed;
+    bool ** traversed;
   };
 
   /**
