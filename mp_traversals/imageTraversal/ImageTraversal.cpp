@@ -35,23 +35,26 @@ ImageTraversal::Iterator::Iterator() {
   /** @todo [Part 1] */
   //Every ImageTraversal is initialized with a start point
   curr = Point(0, 0); 
+  traverse = nullptr; 
 }
 
 /**
  * Custom iterator constructor.
  */
-ImageTraversal::Iterator::Iterator(ImageTraversal *t, PNG & png, Point & start, double tolerance) {
+ImageTraversal::Iterator::Iterator(ImageTraversal * t, PNG & png, Point & start, double tolerance) {
   traverse = t;
-  pic = png;
+  png_ = png;
   tol_ = tolerance;
   startPoint = start;
-  traversed = new int*[pic.width()];
-  for (unsigned x = 0; x < pic.width(); x++) {
-    traversed[x] = new int[pic.height()];
+
+  traversed = new int * [png_.width()];
+
+  for (unsigned x = 0; x < png_.width(); x++) {
+    traversed[x] = new int[png_.height()];
   }
 
-  for (unsigned x = 0; x < pic.width(); x++) {
-    for (unsigned y = 0; y < pic.height(); y++) {
+  for (unsigned x = 0; x < png_.width(); x++) {
+    for (unsigned y = 0; y < png_.height(); y++) {
       traversed[x][y] = 0;
     }
   }
@@ -65,31 +68,29 @@ ImageTraversal::Iterator::Iterator(ImageTraversal *t, PNG & png, Point & start, 
  */
 ImageTraversal::Iterator & ImageTraversal::Iterator::operator++() {
 
-  if (traverse->empty() == false) {
-    traverse->pop();
-    traversed[curr.x][curr.y] = 0;
-  }
+  if (!traverse->empty() )
+  traversed[(int)traverse->pop().x][(int)traverse->pop().y] = 1;
 
   curr = traverse->pop(); 
 
-    //neighbors of the point
-    Point right = Point(curr.x + 1, curr.y);
-    Point down = Point(curr.x, curr.y + 1);
-    Point left = Point(curr.x - 1, curr.y);
-    Point up = Point(curr.x, curr.y - 1);
+  //neighbors of the point
+  Point right = Point(curr.x + 1, curr.y);
+  Point down = Point(curr.x, curr.y + 1);
+  Point left = Point(curr.x - 1, curr.y);
+  Point up = Point(curr.x, curr.y - 1);
 
-    if (pic.width() > right.x) {
-      if (traversed[curr.x + 1][curr.y] != 0) {
-        double within0 = calculateDelta(pic.getPixel(right.x, right.y), pic.getPixel(startPoint.x, startPoint.y));
-        if (within0 <= tol_) {
-          traverse->add(right);
-        }
+  if (png_.width() > right.x) {
+    if (traversed[curr.x + 1][curr.y] != 1) {
+      double within0 = calculateDelta(png_.getPixel(curr.x, curr.y), png_.getPixel(startPoint.x, startPoint.y));
+      if (within0 <= tol_) {
+        traverse->add(right);
       }
     }
+  }
 
-    if (pic.height() > down.y) {
-      if (traversed[curr.x][curr.y + 1] != 0) {
-        double within1 = calculateDelta(pic.getPixel(down.x, down.y), pic.getPixel(startPoint.x, startPoint.y));
+    if (png_.height() > down.y) {
+      if (traversed[curr.x][curr.y + 1] != 1) {
+        double within1 = calculateDelta(png_.getPixel(curr.x, curr.y), png_.getPixel(startPoint.x, startPoint.y));
         if (within1 <= tol_) {
           traverse->add(down);
         }
@@ -97,8 +98,8 @@ ImageTraversal::Iterator & ImageTraversal::Iterator::operator++() {
     }
 
     if (0 > left.x) {
-      if (traversed[curr.x - 1][curr.y] != 0) {
-        double within2 = calculateDelta(pic.getPixel(left.x, left.y), pic.getPixel(startPoint.x, startPoint.y));
+      if (traversed[curr.x - 1][curr.y] != 1) {
+        double within2 = calculateDelta(png_.getPixel(curr.x, curr.y), png_.getPixel(startPoint.x, startPoint.y));
         if (within2 <= tol_) {
           traverse->add(left);
         }
@@ -106,8 +107,8 @@ ImageTraversal::Iterator & ImageTraversal::Iterator::operator++() {
     }
 
     if (0 > up.y) {
-      if (traversed[curr.x][curr.y - 1] != 0) {
-        double within3 = calculateDelta(pic.getPixel(up.x, up.y), pic.getPixel(startPoint.x, startPoint.y));
+      if (traversed[curr.x][curr.y - 1] != 1) {
+        double within3 = calculateDelta(png_.getPixel(curr.x, curr.y), png_.getPixel(startPoint.x, startPoint.y));
         if (within3 <= tol_) {
           traverse->add(up);
         }
@@ -115,10 +116,11 @@ ImageTraversal::Iterator & ImageTraversal::Iterator::operator++() {
     }
 
     if (!traverse->empty()) {
-      curr = traverse->peek(); 
+      curr = traverse->peek();
     }
-    return *this;
-  }
+    return *this; 
+}
+
 
 /**
  * Iterator accessor opreator.

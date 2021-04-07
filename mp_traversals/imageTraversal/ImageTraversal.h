@@ -44,7 +44,7 @@ public:
     /** add private members here if neccesary*/
 
     ImageTraversal * traverse;
-    PNG pic;
+    PNG png_;
     Point startPoint;
     Point curr;  
     double tol_;

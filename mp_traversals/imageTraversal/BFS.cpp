@@ -32,8 +32,7 @@ BFS::BFS(const PNG & png, const Point & start, double tolerance) {
  * Returns an iterator for the traversal starting at the first point.
  */
 ImageTraversal::Iterator BFS::begin() {
-  ImageTraversal::Iterator it = ImageTraversal::Iterator(this, png_, startPoint, tol_);
-  return it;
+  return ImageTraversal::Iterator(this, png_, startPoint, tol_);
 }
 
 /**
