@@ -27,6 +27,7 @@ DFS::DFS(const PNG & png, const Point & start, double tolerance) {
   png_ = png; 
   startPoint = start; 
   tol_ = tolerance;
+  stack_.push(startPoint);
 }
 
     /**
@@ -68,12 +69,8 @@ DFS::DFS(const PNG & png, const Point & start, double tolerance) {
  */
     Point DFS::peek() const
     {
-      if (stack_.empty()) {
-        return Point(0, 0);
-      }
-      
       Point curr = stack_.top();
-      return curr;
+      return curr; 
     }
 
     /**

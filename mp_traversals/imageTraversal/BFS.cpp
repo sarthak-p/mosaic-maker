@@ -26,6 +26,7 @@ BFS::BFS(const PNG & png, const Point & start, double tolerance) {
   png_ = png;
   startPoint = start;
   tol_ = tolerance;
+  queue_.push(start);
 }
 
 /**
@@ -53,6 +54,11 @@ void BFS::add(const Point & point) {
  * Removes and returns the current Point in the traversal.
  */
 Point BFS::pop() {
+
+  if (queue_.empty()){
+    return Point(0, 0);
+  }
+
   Point first = queue_.front(); 
   queue_.pop(); 
   return first; 
@@ -62,7 +68,7 @@ Point BFS::pop() {
  * Returns the current Point in the traversal.
  */
 Point BFS::peek() const {
-  Point curr = queue_.front(); 
+  Point curr = queue_.front();  
   return curr; 
 }
 
