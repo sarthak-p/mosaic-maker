@@ -33,15 +33,14 @@ double ImageTraversal::calculateDelta(const HSLAPixel & p1, const HSLAPixel & p2
  * Default iterator constructor.
  */
 ImageTraversal::Iterator::Iterator() {
-  /** @todo [Part 1] */
-  traverse = nullptr; 
-  startPoint_ = Point(0, 0);
+  traverse = NULL; 
 }
 
 /**
  * Custom iterator constructor.
  */
 ImageTraversal::Iterator::Iterator(ImageTraversal * t, PNG & png, Point & start, double tolerance) {
+  
   traverse = t;
   png_ = png;
   tol_ = tolerance;
@@ -70,6 +69,7 @@ ImageTraversal::Iterator & ImageTraversal::Iterator::operator++() {
 
   //starting point initially  
   curr = traverse->pop();
+  //set the point to true since we have visited it 
   traversed[curr.x][curr.y] = true; 
 
   //neighbors
@@ -78,64 +78,68 @@ ImageTraversal::Iterator & ImageTraversal::Iterator::operator++() {
   Point left = Point(curr.x - 1, curr.y);
   Point up = Point(curr.x, curr.y - 1);
 
-  //adding all points within tolerance and range to the traversal 
-  if (right.x < png_.width()) {
+  //adding all neighbors within tolerance and range to the traversal (if unvisited)
+  if (right.x < png_.width() && right.y < png_.height()) {
     if (traversed[right.x][right.y] != true) {
-      double within0 = calculateDelta(png_.getPixel(right.x, right.y), png_.getPixel(startPoint_.x, startPoint_.y));
-      if (within0 < tol_) {
+      double within = calculateDelta(png_.getPixel(startPoint_.x, startPoint_.y), png_.getPixel(right.x, right.y));
+      if (within < tol_) {
         traverse->add(right);
       }
     }
   }
 
-  if (down.y < png_.height()) {
+  if (down.y < png_.height() && down.x < png_.width()) {
     if (traversed[down.x][down.y] != true) {
-      double within1 = calculateDelta(png_.getPixel(down.x, down.y), png_.getPixel(startPoint_.x, startPoint_.y));
-      if (within1 < tol_) {
+      double within = calculateDelta(png_.getPixel(startPoint_.x, startPoint_.y), png_.getPixel(down.x, down.y));
+      if (within < tol_) {
         traverse->add(down);
       }
     }
   }
 
-  if (left.x >= 0) {
+  if (left.x < png_.width() && left.y < png_.height()) {
     if (traversed[left.x][left.y] != true) {
-      double within2 = calculateDelta(png_.getPixel(down.x, down.y), png_.getPixel(startPoint_.x, startPoint_.y));
-      if (within2 < tol_) {
+      double within = calculateDelta(png_.getPixel(startPoint_.x, startPoint_.y), png_.getPixel(left.x, left.y));
+      if (within < tol_) {
         traverse->add(left);
       }
     }
   }
 
-  if (up.y >= 0) {
+  if (up.y < png_.height() && up.x < png_.width()) {
       if (traversed[up.x][up.y] != true) {
-        double within3 = calculateDelta(png_.getPixel(up.x, up.y), png_.getPixel(startPoint_.x, startPoint_.y));
-        if (within3 < tol_) {
+        double within = calculateDelta(png_.getPixel(startPoint_.x, startPoint_.y), png_.getPixel(up.x, up.y));
+        if (within < tol_) {
           traverse->add(up);
         }
       }
     }
     
+    //current becomes next point in stack/queue
     curr = traverse->peek(); 
+
+    //if stack/queue is not empty and point has not been visited, then pop it
+    //continue till all points are visited  
     while (!traverse->empty()) { 
-      if (traversed[curr.x][curr.y] == false) {
+      if (traversed[curr.x][curr.y]) {
         curr = traverse->pop();
-        curr = traverse->peek();
+    //if stack/queue is empty, we are done  
       } else {
         break; 
       }
     }
-    return *this;
-  }
+    return *this; 
+}
 
       /**
  * Iterator accessor opreator.
  *
  * Accesses the current Point in the ImageTraversal.
  */
-      Point ImageTraversal::Iterator::operator*()
-      {
-        return traverse->peek();
-      }
+  Point ImageTraversal::Iterator::operator*() {
+    Point next_in_line = traverse->peek(); 
+    return next_in_line; 
+  }
 
       /**
  * Iterator inequality operator.
@@ -143,6 +147,6 @@ ImageTraversal::Iterator & ImageTraversal::Iterator::operator++() {
  * Determines if two iterators are not equal.
  */
   bool ImageTraversal::Iterator::operator!=(const ImageTraversal::Iterator &other){
-    return false; 
+    return !(traverse->empty());
   }
     

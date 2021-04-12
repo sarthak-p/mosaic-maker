@@ -41,7 +41,7 @@ bool heap<T, Compare>::hasAChild(size_t currentIdx) const
     if (_elems.size() > leftChild(currentIdx)) {
         return true; 
     }
-    return false; 
+    return false;
 }
 
 template <class T, class Compare>
@@ -67,19 +67,22 @@ void heap<T, Compare>::heapifyDown(size_t currentIdx)
     if (!hasAChild(currentIdx)) {
         return; 
     }
-    size_t sink = maxPriorityChild(currentIdx);
-    if (higherPriority(_elems[sink], _elems[currentIdx])) {
-        swap(_elems[sink], _elems[currentIdx]);
-        heapifyDown(sink);
+    size_t down = maxPriorityChild(currentIdx);
+
+    if (higherPriority(_elems[down], _elems[currentIdx])) {
+        swap(_elems[down], _elems[currentIdx]);
+        heapifyDown(down);
     }
 }
 
 template <class T, class Compare>
 void heap<T, Compare>::heapifyUp(size_t currentIdx)
 {
-    if (currentIdx == root())
-        return;
+    if (currentIdx == root()) {
+        return; 
+    }
     size_t parentIdx = parent(currentIdx);
+
     if (higherPriority(_elems[currentIdx], _elems[parentIdx])) {
         swap(_elems[currentIdx], _elems[parentIdx]);
         heapifyUp(parentIdx);
@@ -142,8 +145,8 @@ void heap<T, Compare>::updateElem(const size_t & idx, const T& elem)
 {
     // @TODO In-place updates the value stored in the heap array at idx
     // Corrects the heap to remain as a valid heap even after update
-    _elems[idx + 1] = elem;
-    for (size_t i = root(); i < _elems.size(); i++) {
+    _elems[idx] = elem; 
+    for (size_t i = 1; i < _elems.size(); i++) {
         heapifyDown(i);
     }
 }
@@ -155,7 +158,7 @@ bool heap<T, Compare>::empty() const
     if (_elems.size() == 1) {
         return true; 
     }
-    return false; 
+    return false;
 }
 
 template <class T, class Compare>
