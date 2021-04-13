@@ -1,6 +1,8 @@
 #include "cs225/PNG.h"
 #include <list>
+#include <vector>
 #include <iostream>
+#include <queue>
 
 #include "colorPicker/ColorPicker.h"
 #include "imageTraversal/ImageTraversal.h"
@@ -10,6 +12,7 @@
 #include "FloodFilledImage.h"
 
 using namespace cs225;
+using namespace std; 
 
 /**
  * Constructs a new instance of a FloodFilledImage with a image `png`.
@@ -25,12 +28,14 @@ FloodFilledImage::FloodFilledImage(const PNG & png) {
  * Adds a FloodFill operation to the FloodFillImage.  This function must store the operation,
  * which will be used by `animate`.
  * 
+ * 
  * @param traversal ImageTraversal used for this FloodFill operation.
  * @param colorPicker ColorPicker used for this FloodFill operation.
  */
 void FloodFilledImage::addFloodFill(ImageTraversal & traversal, ColorPicker & colorPicker) {
   /** @todo [Part 2] */
-  traversal->push_back() 
+  traverser.push_back(&traversal);
+  colorPicker_.push_back(&colorPicker);
 }
 
 /**
@@ -54,6 +59,27 @@ void FloodFilledImage::addFloodFill(ImageTraversal & traversal, ColorPicker & co
  */ 
 Animation FloodFilledImage::animate(unsigned frameInterval) const {
   Animation animation;
-  /** @todo [Part 2] */
+
+  //initial frame prior to any changes
+  PNG duplicate = png_;
+  animation.addFrame(duplicate);
+  unsigned frameNum = 0;
+
+  //visiting each pixel within the image based on the order provided by iterator 
+  for (unsigned i = 0; i < traverser.size(); i++) {
+    for (Point pixelPoint : *traverser[i]) {
+      HSLAPixel & pixel = duplicate.getPixel(pixelPoint.x, pixelPoint.y);
+      pixel.h = colorPicker_[i]->getColor(pixelPoint.x, pixelPoint.y).h; 
+      pixel.s = colorPicker_[i]->getColor(pixelPoint.x, pixelPoint.y).s;
+      pixel.l = colorPicker_[i]->getColor(pixelPoint.x, pixelPoint.y).l;
+      pixel.a = colorPicker_[i]->getColor(pixelPoint.x, pixelPoint.y).a;
+      if (frameNum % frameInterval == 0) {
+        animation.addFrame(duplicate);
+      }
+      frameNum++; 
+    }
+  }
+  //final frame
+  animation.addFrame(duplicate);
   return animation;
 }

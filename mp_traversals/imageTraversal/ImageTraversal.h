@@ -42,7 +42,7 @@ public:
 
     /** @todo [Part 1] */
     /** add private members here if neccesary*/
-    ImageTraversal * traverse;
+    ImageTraversal *traverse;
     PNG png_;
     Point startPoint_;
     Point curr;  
