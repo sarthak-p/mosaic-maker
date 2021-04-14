@@ -12,6 +12,7 @@
 #include "ImageTraversal.h"
 #include "DFS.h"
 
+using namespace std; 
 
 /**
  * Initializes a depth-first ImageTraversal on a given `png` image,
@@ -55,24 +56,19 @@ DFS::DFS(const PNG & png, const Point & start, double tolerance) {
     /**
  * Removes and returns the current Point in the traversal.
  */
-    Point DFS::pop()
-    {
-      if (stack_.empty()) {
-        return Point(0,0); 
-      }
-
+  Point DFS::pop() {
       Point first = stack_.top();
       stack_.pop();
       return first; 
-    }
+  }
 
     /**
  * Returns the current Point in the traversal.
  */
     Point DFS::peek() const
     {
-      Point curr = stack_.top();
-      return curr; 
+      Point front = stack_.top();
+      return front; 
     }
 
     /**

@@ -63,20 +63,26 @@ Animation FloodFilledImage::animate(unsigned frameInterval) const {
   //initial frame prior to any changes
   PNG duplicate = png_;
   animation.addFrame(duplicate);
-  unsigned frameNum = 0;
+
+  unsigned frameNum = 1;
 
   //visiting each pixel within the image based on the order provided by iterator 
   for (unsigned i = 0; i < traverser.size(); i++) {
     for (Point pixelPoint : *traverser[i]) {
       HSLAPixel & pixel = duplicate.getPixel(pixelPoint.x, pixelPoint.y);
-      pixel.h = colorPicker_[i]->getColor(pixelPoint.x, pixelPoint.y).h; 
-      pixel.s = colorPicker_[i]->getColor(pixelPoint.x, pixelPoint.y).s;
-      pixel.l = colorPicker_[i]->getColor(pixelPoint.x, pixelPoint.y).l;
-      pixel.a = colorPicker_[i]->getColor(pixelPoint.x, pixelPoint.y).a;
+      HSLAPixel colorPixel = colorPicker_[i]->getColor(pixelPoint.x, pixelPoint.y);
+      pixel.h = colorPixel.h;
+      pixel.s = colorPixel.s;
+      pixel.l = colorPixel.l;
+      pixel.a = colorPixel.a;
+      //cout << frameNum << endl; 
+      //pixel.a = colorPicker_[i]->getColor(pixelPoint.x, pixelPoint.y).a;
+
+      //adding every "frameInterval"th pixel to animation 
       if (frameNum % frameInterval == 0) {
         animation.addFrame(duplicate);
       }
-      frameNum++; 
+      frameNum++;
     }
   }
   //final frame
