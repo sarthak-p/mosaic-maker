@@ -339,12 +339,15 @@ class BTree
  * the index of val in elements.
  */
 template <class T, class C>
-size_t insertion_idx(const std::vector<T>& elements, const C& val)
-{
-    /* TODO Your code goes here! */
-
-    return 5;
+size_t insertion_idx(const std::vector<T>& elements, const C& val) {
+    for (size_t t = 0; t < elements.size(); t++) {
+        if (val == elements[t] || val < elements[t]) {
+            return t;
+        }
+    }
+    return elements.size();
 }
+
 
 #include "btree_given.cpp"
 #include "btree.cpp"

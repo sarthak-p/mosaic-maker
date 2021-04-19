@@ -29,7 +29,7 @@ class StickerSheet {
 
     private:
     Image picture_; 
-    Image * array; 
+    Image * arr; 
     unsigned max_; 
     unsigned * x_; 
     unsigned * y_;  

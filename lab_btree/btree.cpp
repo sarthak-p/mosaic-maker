@@ -4,15 +4,14 @@
  * (insert-only). Designed to take advantage of caching to be faster than
  * standard balanced binary search trees.
  */
-
+using std::vector; 
 /**
  * Finds the value associated with a given key.
  * @param key The key to look up.
  * @return The value (if found), the default V if not.
  */
 template <class K, class V>
-V BTree<K, V>::find(const K& key) const
-{
+V BTree<K, V>::find(const K& key) const {
     return root == nullptr ? V() : find(root, key);
 }
 
@@ -23,15 +22,14 @@ V BTree<K, V>::find(const K& key) const
  * @return The value (if found), the default V if not.
  */
 template <class K, class V>
-V BTree<K, V>::find(const BTreeNode* subroot, const K& key) const
-{
+V BTree<K, V>::find(const BTreeNode* subroot, const K& key) const {
     /* TODO Finish this function */
 
     size_t first_larger_idx = insertion_idx(subroot->elements, key);
 
     /* If first_larger_idx is a valid index and the key there is the key we
      * are looking for, we are done. */
-
+    
     /* Otherwise, we need to figure out which child to explore. For this we
      * can actually just use first_larger_idx directly. E.g.
      * | 1 | 5 | 7 | 8 |
@@ -43,7 +41,14 @@ V BTree<K, V>::find(const BTreeNode* subroot, const K& key) const
      * anywhere in the tree and return the default V.
      */
 
-    return V();
+    if (first_larger_idx < subroot->elements.size() && subroot->elements[first_larger_idx] == key) {
+        return subroot->elements[first_larger_idx].value;
+    } else if (subroot->is_leaf) {
+        return V(); 
+    } else {
+        return find(subroot->children[first_larger_idx], key);
+    }
+    return V(); 
 }
 
 /**
@@ -141,6 +146,14 @@ void BTree<K, V>::split_child(BTreeNode* parent, size_t child_idx)
 
 
     /* TODO Your code goes here! */
+    parent->children.insert(child_itr, new_right);
+    parent->elements.insert(elem_itr, child->elements[mid_elem_idx]);
+
+    new_right->children.assign(mid_child_itr, child->children.end());
+    new_right->elements.assign(mid_elem_itr + 1, child->elements.end());
+
+    new_left->children.assign(child->children.begin(), mid_child_itr);
+    new_left->elements.assign(child->elements.begin(), mid_elem_itr);
 }
 
 /**
@@ -151,7 +164,7 @@ void BTree<K, V>::split_child(BTreeNode* parent, size_t child_idx)
  * write an equivalent seemed more instructive.
  */
 template <class K, class V>
-void BTree<K, V>::insert(BTreeNode* subroot, const DataPair& pair)
+void BTree<K, V>::insert(BTreeNode * subroot, const DataPair & pair)
 {
     /* There are two cases to consider.
      * If the subroot is a leaf node and the key doesn't exist subroot, we
@@ -165,4 +178,15 @@ void BTree<K, V>::insert(BTreeNode* subroot, const DataPair& pair)
     size_t first_larger_idx = insertion_idx(subroot->elements, pair);
 
     /* TODO Your code goes here! */
+    if (subroot->is_leaf) {
+        subroot->elements.insert(subroot->elements.begin() + first_larger_idx, pair);
+    } else if (first_larger_idx < subroot->elements.size() && subroot->elements[first_larger_idx] == pair) {
+        return;
+    } else {
+        insert(subroot->children[first_larger_idx], pair);
+        if (order <= subroot->children[first_larger_idx]->elements.size()) {
+            split_child(subroot, first_larger_idx);
+        }
+    }
 }
+
