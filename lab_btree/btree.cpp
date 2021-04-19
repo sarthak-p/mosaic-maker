@@ -4,7 +4,6 @@
  * (insert-only). Designed to take advantage of caching to be faster than
  * standard balanced binary search trees.
  */
-using std::vector; 
 /**
  * Finds the value associated with a given key.
  * @param key The key to look up.
