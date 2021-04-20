@@ -1,5 +1,6 @@
 /* Your code here! */
 #pragma once
+#include "dsets.h"
 
 #include <vector>
 #include "cs225/PNG.h"
@@ -23,4 +24,7 @@ private:
     int width_; 
     int height_; 
     vector<int> vect;
+    DisjointSets disjoint; 
+    vector<bool> right_; 
+    vector<bool> down_; 
 };

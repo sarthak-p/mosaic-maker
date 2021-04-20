@@ -5,6 +5,7 @@
 using namespace std;
 
 void DisjointSets::addelements(int num)	{
+    //adding n connected roots to the end of the vector 
     int i = 0; 
     while (i < num) {
         vect.push_back(-1);
@@ -13,6 +14,7 @@ void DisjointSets::addelements(int num)	{
 }
 
 int DisjointSets::find(int elem) {
+    //find the representative element of the set that contains the element  
     int index; 
     if (vect[elem] < 0) {
         return elem; 
@@ -24,6 +26,7 @@ int DisjointSets::find(int elem) {
 
 
 void DisjointSets::setunion(int a, int b) {
+    //merging two disjoint sets, updating size and parent pointer 
     a = find(a); 
     b = find(b);
 
@@ -41,6 +44,7 @@ void DisjointSets::setunion(int a, int b) {
 }
 
 int DisjointSets::size(int elem) {
+    //returning size of the set that contains the element 
     int i = find(elem);
     int size = vect[i];
     return -1 * size; 
