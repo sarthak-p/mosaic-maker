@@ -179,7 +179,6 @@ void DHHashTable<K, V>::resizeTable()
     }
 
     delete[] table;
-    // don't delete elements since we just moved their pointers around
     table = temp;
     size = newSize;
 }
