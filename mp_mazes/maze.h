@@ -4,7 +4,6 @@
 
 #include <vector>
 #include "cs225/PNG.h"
-#include <vector>
 
 using namespace std;
 using namespace cs225; 

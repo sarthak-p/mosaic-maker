@@ -3,6 +3,7 @@
  * Implementation of the LPHashTable class.
  */
 #include "lphashtable.h"
+using namespace std; 
 
 template <class K, class V>
 LPHashTable<K, V>::LPHashTable(size_t tsize)
@@ -72,36 +73,37 @@ template <class K, class V>
 void LPHashTable<K, V>::insert(K const& key, V const& value)
 {
 
-    /**
-     * @todo Implement this function.
-     *
-     * @note Remember to resize the table when necessary (load factor >= 0.7).
-     * **Do this check *after* increasing elems (but before inserting)!!**
-     * Also, don't forget to mark the cell for probing with should_probe!
-     */
-
-    (void) key;   // prevent warnings... When you implement this function, remove this line.
-    (void) value; // prevent warnings... When you implement this function, remove this line.
+    ++elems;
+    if (shouldResize()) {
+        resizeTable();
+    }
+    int i = hashes::hash(key, size);
+    while(table[i]) {
+        i = (i+1) % size; 
+    }
+    table[i] = new pair<K, V>(key, value);
+    should_probe[i] = true; 
 }
 
 template <class K, class V>
 void LPHashTable<K, V>::remove(K const& key)
 {
-    /**
-     * @todo: implement this function
-     */
+    int i = findIndex(key);
+    if (i != -1) {
+        delete table[i];
+        table[i] = NULL; 
+        elems--; 
+    }
 }
 
 template <class K, class V>
 int LPHashTable<K, V>::findIndex(const K& key) const
 {
-    
-    /**
-     * @todo Implement this function
-     *
-     * Be careful in determining when the key is not in the table!
-     */
-
+    for (size_t i = 0; i < size; i++) {
+        if (table[i] != NULL && table[i]->first == key) {
+            return i; 
+        }
+    }
     return -1;
 }
 
@@ -151,12 +153,26 @@ void LPHashTable<K, V>::clear()
 template <class K, class V>
 void LPHashTable<K, V>::resizeTable()
 {
+    size_t doubleSize = findPrime(size * 2);
+    pair<K, V> **tab = new pair<K, V> *[doubleSize];
+    delete[] should_probe;
+    should_probe = new bool[doubleSize];
+    for (size_t i = 0; i < doubleSize; i++) {
+        tab[i] = NULL;
+        should_probe[i] = false;
+    }
 
-    /**
-     * @todo Implement this function
-     *
-     * The size of the table should be the closest prime to size * 2.
-     *
-     * @hint Use findPrime()!
-     */
+    for (size_t s = 0; s < size; s++) {
+        if (table[s]) {
+            size_t h = hashes::hash(table[s]->first, doubleSize);
+            while (tab[h]) {
+                h = (h + 1) % doubleSize;
+            }
+            tab[h] = table[s];
+            should_probe[h] = true;
+        }
+    }
+    delete[] table;
+    table = tab;
+    size = doubleSize;
 }
