@@ -70,7 +70,6 @@ pair<int, int> assert_maze_helper(SquareMaze & maze, int width, int height)
 			}
 		}
 	}
-
 	return make_pair(components, calls);
 }
 

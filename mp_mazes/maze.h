@@ -4,6 +4,7 @@
 
 #include <vector>
 #include "cs225/PNG.h"
+#include "cs225/HSLAPixel.h"
 
 using namespace std;
 using namespace cs225; 
@@ -22,7 +23,6 @@ public:
 private:
     int width_; 
     int height_; 
-    vector<int> vect;
     DisjointSets disjoint; 
     vector<bool> right_; 
     vector<bool> down_; 
