@@ -55,8 +55,8 @@ void CommonWords::init_common()
 {
     size_t file_size = file_word_maps.size(); 
     for (size_t i = 0; i < file_size; i++) {
-        for (map<string, unsigned int>::iterator it = file_word_maps[i].begin(); it != file_word_maps[i].end(); it++) {
-            common[it->first]++; 
+        for (map<string, unsigned int>::iterator it = file_word_maps[i].begin(); it != file_word_maps[i].end(); ++it) {
+            ++common[it->first]; 
         }
     }
 }
