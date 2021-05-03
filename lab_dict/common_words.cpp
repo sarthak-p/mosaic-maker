@@ -7,6 +7,7 @@
  */
 
 #include "common_words.h"
+using namespace std; 
 
 #include <fstream>
 #include <string>
@@ -39,21 +40,25 @@ CommonWords::CommonWords(const vector<string>& filenames)
 
 void CommonWords::init_file_word_maps(const vector<string>& filenames)
 {
-    // make the length of file_word_maps the same as the length of filenames
     file_word_maps.resize(filenames.size());
 
-    // go through all files
     for (size_t i = 0; i < filenames.size(); i++) {
-        // get the corresponding vector of words that represents the current
-        // file
         vector<string> words = file_to_vector(filenames[i]);
-        /* Your code goes here! */
+        size_t vect_size = words.size(); 
+        for (size_t j = 0; j < vect_size; j++) {
+            file_word_maps[i][words[j]] += 1; 
+        }
     }
 }
 
 void CommonWords::init_common()
 {
-    /* Your code goes here! */
+    size_t file_size = file_word_maps.size(); 
+    for (size_t i = 0; i < file_size; i++) {
+        for (map<string, unsigned int>::iterator it = file_word_maps[i].begin(); it != file_word_maps[i].end(); it++) {
+            common[it->first]++; 
+        }
+    }
 }
 
 /**
@@ -64,7 +69,22 @@ void CommonWords::init_common()
 vector<string> CommonWords::get_common_words(unsigned int n) const
 {
     vector<string> out;
-    /* Your code goes here! */
+
+    size_t file_size = file_word_maps.size(); 
+    for (pair<string, unsigned int> kv : common) {
+        if (kv.second == file_size) {
+            bool check = true; 
+            for (size_t i = 0; i < file_size; i++) {
+                if (file_word_maps[i].at(kv.first) < n) {
+                    check = false; 
+                    break; 
+                }
+            }
+            if (check == true) {
+                out.push_back(kv.first);
+            }
+        }
+    }
     return out;
 }
 

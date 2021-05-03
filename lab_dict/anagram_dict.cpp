@@ -15,6 +15,8 @@ using std::string;
 using std::vector;
 using std::ifstream;
 
+using namespace std; 
+
 /**
  * Constructs an AnagramDict from a filename with newline-separated
  * words.
@@ -22,7 +24,16 @@ using std::ifstream;
  */
 AnagramDict::AnagramDict(const string& filename)
 {
-    /* Your code goes here! */
+    ifstream file(filename);
+    string word;
+    if (file.is_open()) {
+        string word2; 
+        while (getline(file, word)) {
+            word2 = word;
+            sort(word2.begin(), word2.end());
+            dict[word2].push_back(word);
+        }
+    }
 }
 
 /**
@@ -31,7 +42,12 @@ AnagramDict::AnagramDict(const string& filename)
  */
 AnagramDict::AnagramDict(const vector<string>& words)
 {
-    /* Your code goes here! */
+    size_t word_size = words.size();
+    for (size_t i = 0; i < word_size; i++) {
+        string word = words[i];
+        sort(word.begin(), word.end());
+        dict[word].push_back(words[i]);
+    }
 }
 
 /**
@@ -42,8 +58,13 @@ AnagramDict::AnagramDict(const vector<string>& words)
  */
 vector<string> AnagramDict::get_anagrams(const string& word) const
 {
-    /* Your code goes here! */
-    return vector<string>();
+    string str = word; 
+    sort(str.begin(), str.end());
+
+    if (dict.find(str) == dict.end()) {
+        return vector<string>(); 
+    }
+    return dict.at(str);
 }
 
 /**
@@ -55,5 +76,12 @@ vector<string> AnagramDict::get_anagrams(const string& word) const
 vector<vector<string>> AnagramDict::get_all_anagrams() const
 {
     /* Your code goes here! */
-    return vector<vector<string>>();
+    vector<vector<string>> out;
+
+    for (auto each : dict) {
+        if (1 < each.second.size()) {
+            out.push_back(each.second);
+        }
+    }
+    return out; 
 }

@@ -7,6 +7,7 @@
 #include <iostream>
 #include <sys/time.h>
 #include <cmath>
+#include <queue>
 
 using namespace std; 
 using namespace cs225; 
@@ -91,7 +92,7 @@ void SquareMaze::setWall(int x, int y, int dir, bool exists) {
 }
 
 vector<int> SquareMaze::solveMaze() {
-    return vector<int>();
+   return vector<int>(); 
 }
 
 PNG * SquareMaze::drawMaze() const {
