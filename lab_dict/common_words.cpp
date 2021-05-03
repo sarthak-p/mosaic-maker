@@ -71,7 +71,7 @@ vector<string> CommonWords::get_common_words(unsigned int n) const
     vector<string> out;
 
     size_t file_size = file_word_maps.size(); 
-    for (pair<string, unsigned int> kv : common) {
+    for (auto & kv : common) {
         if (kv.second == file_size) {
             bool check = true; 
             for (size_t i = 0; i < file_size; i++) {
